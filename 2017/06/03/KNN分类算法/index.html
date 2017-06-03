@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="All greatness comes from the beginning of courage" />
+  <meta name="keywords" content="分类," />
 
 
 
@@ -90,12 +90,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="所有的伟大,源于一个勇敢的开始">
-<meta property="og:url" content="https://williams-hao.github.io/index.html">
+<meta name="description" content="KNN 原理对于无标签的待分类数据,通过计算和带标签的数据集的相似度,选出前K个最相似的数据.把这K个数据中出现次数最多的分类作为待分类数据的类别返回. 流程输入: dataSet向量集合(有签[A,B,C,D,E,F…])   Label =[A,B,C,D,E,F… ] X待分类向量 K值  目的： 将X分类到某个类别[A,B,C,..]  步骤： 1、计算X到dataSet每个向量的距离-&amp;">
+<meta name="keywords" content="分类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KNN分类算法">
+<meta property="og:url" content="https://williams-hao.github.io/2017/06/03/KNN分类算法/index.html">
 <meta property="og:site_name" content="所有的伟大,源于一个勇敢的开始">
+<meta property="og:description" content="KNN 原理对于无标签的待分类数据,通过计算和带标签的数据集的相似度,选出前K个最相似的数据.把这K个数据中出现次数最多的分类作为待分类数据的类别返回. 流程输入: dataSet向量集合(有签[A,B,C,D,E,F…])   Label =[A,B,C,D,E,F… ] X待分类向量 K值  目的： 将X分类到某个类别[A,B,C,..]  步骤： 1、计算X到dataSet每个向量的距离-&amp;">
+<meta property="og:updated_time" content="2017-06-03T02:29:06.770Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="所有的伟大,源于一个勇敢的开始">
+<meta name="twitter:title" content="KNN分类算法">
+<meta name="twitter:description" content="KNN 原理对于无标签的待分类数据,通过计算和带标签的数据集的相似度,选出前K个最相似的数据.把这K个数据中出现次数最多的分类作为待分类数据的类别返回. 流程输入: dataSet向量集合(有签[A,B,C,D,E,F…])   Label =[A,B,C,D,E,F… ] X待分类向量 K值  目的： 将X分类到某个类别[A,B,C,..]  步骤： 1、计算X到dataSet每个向量的距离-&amp;">
 
 
 
@@ -123,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://williams-hao.github.io/"/>
+  <link rel="canonical" href="https://williams-hao.github.io/2017/06/03/KNN分类算法/"/>
 
 
 
 
 
-  <title>所有的伟大,源于一个勇敢的开始</title>
+  <title>KNN分类算法 | 所有的伟大,源于一个勇敢的开始</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -154,9 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -239,9 +242,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -267,9 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/03/KNN分类算法/" itemprop="url">KNN分类算法</a></h1>
+          <h1 class="post-title" itemprop="name headline">KNN分类算法</h1>
         
 
         <div class="post-meta">
@@ -316,9 +317,7 @@
       
 
       
-        
-          
-            <h1 id="KNN"><a href="#KNN" class="headerlink" title="KNN"></a>KNN</h1><hr>
+        <h1 id="KNN"><a href="#KNN" class="headerlink" title="KNN"></a>KNN</h1><hr>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>对于无标签的待分类数据,通过计算和带标签的数据集的相似度,选出前K个最相似的数据.把这K个数据中出现次数最多的分类作为待分类数据的类别返回.</strong></p>
 <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="输入"><a href="#输入" class="headerlink" title="输入:"></a>输入:</h3><blockquote>
 <p>dataSet向量集合(有签[A,B,C,D,E,F…])  </p>
@@ -341,274 +340,72 @@
 </ul>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div></pre></td><td class="code"><pre><div class="line"><span class="string">'''</span></div><div class="line">created at 2017-05-02</div><div class="line">author:Hao Jiawei</div><div class="line">'''</div><div class="line"><span class="comment"># -*- coding:utf8 -*-</span></div><div class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> os <span class="keyword">import</span> listdir</div><div class="line"><span class="keyword">import</span> operator</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">createDataSet</span><span class="params">()</span>:</span></div><div class="line">    group = array([[<span class="number">1.0</span>, <span class="number">1.1</span>], [<span class="number">1.0</span>, <span class="number">1.0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0.1</span>]])</div><div class="line">    label = [<span class="string">'A'</span>, <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'B'</span>]</div><div class="line">    <span class="keyword">return</span> group, label</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span><span class="params">(inX, dataSet, labels, k)</span>:</span></div><div class="line">    dataSetSize = dataSet.shape[<span class="number">0</span>]</div><div class="line">    diffMat = tile(inX, (dataSetSize, <span class="number">1</span>)) - dataSet</div><div class="line">    sqDiffMat = diffMat**<span class="number">2</span></div><div class="line">    sqDistances = sqDiffMat.sum(axis=<span class="number">1</span>)</div><div class="line">    distances = sqDistances**<span class="number">0.5</span></div><div class="line">    sortedDistIndicies = distances.argsort()</div><div class="line">    classCount = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):</div><div class="line">        voteIlabel = labels[sortedDistIndicies[i]]</div><div class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></div><div class="line">    sortedClassCount = sorted(classCount.iteritems(),</div><div class="line">                              key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</div><div class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span><span class="params">(filename)</span>:</span></div><div class="line">    fr = open(filename)</div><div class="line">    numberOfLines = len(fr.readlines())  <span class="comment"># get the number of lines in the file</span></div><div class="line">    returnMat = zeros((numberOfLines, <span class="number">3</span>))  <span class="comment"># prepare matrix to return</span></div><div class="line">    classLabelVector = []  <span class="comment"># prepare labels return</span></div><div class="line">    fr = open(filename)</div><div class="line">    index = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</div><div class="line">        line = line.strip()</div><div class="line">        listFromLine = line.split(<span class="string">'\t'</span>)</div><div class="line">        returnMat[index, :] = listFromLine[<span class="number">0</span>:<span class="number">3</span>]</div><div class="line">        classLabelVector.append(int(listFromLine[<span class="number">-1</span>]))</div><div class="line">        index += <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> returnMat, classLabelVector</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">autoNorm</span><span class="params">(dataSet)</span>:</span></div><div class="line">    minVals = dataSet.min(<span class="number">0</span>)</div><div class="line">    maxVals = dataSet.max(<span class="number">0</span>)</div><div class="line">    ranges = maxVals - minVals</div><div class="line">    <span class="keyword">print</span> <span class="string">'minVals:&#123;&#125;'</span>.format(minVals)</div><div class="line">    <span class="keyword">print</span> <span class="string">'maxVals:&#123;&#125;'</span>.format(maxVals)</div><div class="line">    <span class="keyword">print</span> <span class="string">'ranges:&#123;&#125;'</span>.format(ranges)</div><div class="line">    normDataSet = zeros(shape(dataSet))</div><div class="line">    m = dataSet.shape[<span class="number">0</span>]</div><div class="line">    normDataSet = dataSet - tile(minVals, (m, <span class="number">1</span>))</div><div class="line">    normDataSet = normDataSet / tile(ranges, (m, <span class="number">1</span>))  <span class="comment"># element wise divide</span></div><div class="line">    <span class="keyword">return</span> normDataSet, ranges, minVals</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">datingClassTest</span><span class="params">()</span>:</span></div><div class="line">    hoRatio = <span class="number">0.10</span></div><div class="line">    datingDataMat, datingLabels = file2matrix(</div><div class="line">        <span class="string">'D:\\IT_software\\python_code\\MachineLearningInAction\\machinelearninginaction\\Ch02\\datingTestSet2.txt'</span>)</div><div class="line">    normMat, ranges, minVals = autoNorm(datingDataMat)</div><div class="line">    m = normMat.shape[<span class="number">0</span>]</div><div class="line">    numTestVecs = int(m * hoRatio)</div><div class="line">    errorCount = <span class="number">0.0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numTestVecs):</div><div class="line">        classiferResult = classify0(normMat[i, :], normMat[numTestVecs:m, :],</div><div class="line">                                    datingLabels[numTestVecs:m], <span class="number">3</span>)</div><div class="line">        <span class="keyword">print</span> <span class="string">'the classifer came back with: &#123;&#125;, the real answer is: &#123;&#125;'</span>\</div><div class="line">            .format(classiferResult, datingLabels[i])</div><div class="line">        <span class="keyword">if</span> classiferResult != datingLabels[i]:</div><div class="line">            errorCount += <span class="number">1.0</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'the total error reate is : &#123;&#125;'</span>\</div><div class="line">        .format(errorCount / float(numTestVecs))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">classifyPerson</span><span class="params">()</span>:</span></div><div class="line">    resultList = [<span class="string">'not at all'</span>, <span class="string">'in small doses'</span>, <span class="string">'in large doses'</span>]</div><div class="line">    percentTats = float(raw_input(</div><div class="line">        <span class="string">"perentange of time spend playing video games?"</span>))</div><div class="line">    ffMiles = float(raw_input(<span class="string">"frequent flier miles earned per year?"</span>))</div><div class="line">    iceCream = float(raw_input(<span class="string">"liters of ice cream consumed per year?"</span>))</div><div class="line">    datingDataMat, datingLabels = file2matrix(</div><div class="line">        <span class="string">'D:\\IT_software\\python_code\\MachineLearningInAction\\machinelearninginaction\\Ch02\\datingTestSet2.txt'</span>)</div><div class="line">    normMat, ranges, minVals = autoNorm(datingDataMat)</div><div class="line">    inArr = array([ffMiles, percentTats, iceCream])</div><div class="line">    classiferResult = classify0(</div><div class="line">        (inArr - minVals) / ranges, normMat, datingLabels, <span class="number">3</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">'you will probably like this person : &#123;&#125;'</span>\</div><div class="line">        .format(resultList[classiferResult - <span class="number">1</span>])</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></div><div class="line">    returnVect = zeros((<span class="number">1</span>, <span class="number">1024</span>))</div><div class="line">    fr = open(filename)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</div><div class="line">        line = fr.readline()</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</div><div class="line">            returnVect[<span class="number">0</span>, <span class="number">32</span> * i + j] = int(line[j])</div><div class="line">    <span class="keyword">return</span> returnVect</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">handwritingClassTest</span><span class="params">()</span>:</span></div><div class="line">    trainingDir = <span class="string">'D:\\IT_software\\python_code\\MachineLearningInAction\\machinelearninginaction\\Ch02\\trainingDigits'</span></div><div class="line">    testDir = <span class="string">'D:\\IT_software\\python_code\\MachineLearningInAction\\machinelearninginaction\\Ch02\\testDigits'</span></div><div class="line">    hwLabels = []</div><div class="line">    trainingFileList = listdir(trainingDir)</div><div class="line">    m = len(trainingFileList)</div><div class="line">    trainingMat = zeros((m, <span class="number">1024</span>))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">        fileNameStr = trainingFileList[i]</div><div class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</div><div class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</div><div class="line">        hwLabels.append(classNumStr)</div><div class="line">        trainingMat[i, :] = img2vector(</div><div class="line">            <span class="string">'&#123;&#125;\\&#123;&#125;'</span>.format(trainingDir, fileNameStr))</div><div class="line">    testFileList = listdir(testDir)</div><div class="line">    errorCount = <span class="number">0.0</span></div><div class="line">    mTest = len(testFileList)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(mTest):</div><div class="line">        fileNameStr = testFileList[i]</div><div class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]</div><div class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</div><div class="line">        vectorUnderTest = img2vector(<span class="string">'&#123;&#125;\\&#123;&#125;'</span>.format(testDir, fileNameStr))</div><div class="line">        classifierResult = classify0(vectorUnderTest,</div><div class="line">                                     trainingMat, hwLabels, <span class="number">3</span>)</div><div class="line">        <span class="keyword">print</span> <span class="string">'the classifier came back with: &#123;&#125;, the real answer is :&#123;&#125;'</span> \</div><div class="line">            .format(classifierResult, classNumStr)</div><div class="line">        <span class="keyword">if</span> classifierResult != classNumStr :</div><div class="line">            errorCount += <span class="number">1.0</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'the total number of eror is :&#123;&#125;'</span>.format(errorCount)</div><div class="line">    <span class="keyword">print</span> <span class="string">'the total number of test is :&#123;&#125;'</span>.format(mTest)</div><div class="line">    <span class="keyword">print</span> <span class="string">'the total error rate is :&#123;&#125;'</span>.format(errorCount/float(mTest))</div></pre></td></tr></table></figure>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://williams-hao.github.io/2017/05/11/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Williams-Hao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="所有的伟大,源于一个勇敢的开始">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/11/test/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T16:04:51+08:00">
-                2017-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/分类/" rel="tag"># 分类</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <hr>
-<h2 id="titile-test"><a href="#titile-test" class="headerlink" title="titile:test"></a>titile:test</h2><h1 id="hello"><a href="#hello" class="headerlink" title="hello"></a>hello</h1>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://williams-hao.github.io/2017/05/11/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Williams-Hao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="所有的伟大,源于一个勇敢的开始">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/11/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T15:36:08+08:00">
-                2017-05-11
-              </time>
+              <a href="/2017/05/11/test/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -616,6 +413,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -635,8 +436,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -689,6 +499,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#KNN"><span class="nav-number">1.</span> <span class="nav-text">KNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">1.2.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入"><span class="nav-number">1.2.1.</span> <span class="nav-text">输入:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目的："><span class="nav-number">1.2.2.</span> <span class="nav-text">目的：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤："><span class="nav-number">1.2.3.</span> <span class="nav-text">步骤：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">1.3.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.4.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -802,6 +628,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
 
   
 
