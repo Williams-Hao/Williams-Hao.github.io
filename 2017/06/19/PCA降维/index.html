@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="All greatness comes from the beginning of courage" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="PCA降维相关概念方差D(x)  是在概率论和统计方差衡量随机变量或一组数据是离散程度的度量。概率论中方差用来度量随机变量和其数学期望（即均值）之间的偏离程度。统计中的方差（样本方差）是各个数据分别与其平均数之差的平方的和的平均数。  定义：D(x)=E{[x-E(x)]²}D(x)=1/n ∑[Xi - E(x)]²     =1/n ∑{Xi² + [E(x)]² - 2XiE(x)}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCA降维">
+<meta property="og:url" content="https://williams-hao.github.io/2017/06/19/PCA降维/index.html">
+<meta property="og:site_name" content="所有的伟大,源于一个勇敢的开始">
+<meta property="og:description" content="PCA降维相关概念方差D(x)  是在概率论和统计方差衡量随机变量或一组数据是离散程度的度量。概率论中方差用来度量随机变量和其数学期望（即均值）之间的偏离程度。统计中的方差（样本方差）是各个数据分别与其平均数之差的平方的和的平均数。  定义：D(x)=E{[x-E(x)]²}D(x)=1/n ∑[Xi - E(x)]²     =1/n ∑{Xi² + [E(x)]² - 2XiE(x)}">
+<meta property="og:image" content="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8940280fde092442a7d9330e22.jpg">
+<meta property="og:image" content="https://williams-hao.github.io/img/1497581961044.png">
+<meta property="og:image" content="https://williams-hao.github.io/img/1497582075209.png">
+<meta property="og:image" content="https://williams-hao.github.io/img/1497582184602.png">
+<meta property="og:image" content="https://williams-hao.github.io/img/1497582167914.png">
+<meta property="og:updated_time" content="2017-06-19T08:24:37.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PCA降维">
+<meta name="twitter:description" content="PCA降维相关概念方差D(x)  是在概率论和统计方差衡量随机变量或一组数据是离散程度的度量。概率论中方差用来度量随机变量和其数学期望（即均值）之间的偏离程度。统计中的方差（样本方差）是各个数据分别与其平均数之差的平方的和的平均数。  定义：D(x)=E{[x-E(x)]²}D(x)=1/n ∑[Xi - E(x)]²     =1/n ∑{Xi² + [E(x)]² - 2XiE(x)}">
+<meta name="twitter:image" content="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8940280fde092442a7d9330e22.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://williams-hao.github.io/2017/06/19/PCA降维/"/>
+
+
+
+
+
+  <title>PCA降维 | 所有的伟大,源于一个勇敢的开始</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">所有的伟大,源于一个勇敢的开始</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">所有的伟大,源于一个勇敢的开始</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://williams-hao.github.io/2017/06/19/PCA降维/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Williams-Hao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="所有的伟大,源于一个勇敢的开始">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PCA降维</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T16:12:00+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="PCA降维"><a href="#PCA降维" class="headerlink" title="PCA降维"></a>PCA降维</h1><h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><p><code>方差D(x)</code></p>
+<blockquote>
+<p>是在概率论和统计方差衡量随机变量或一组数据是离散程度的度量。概率论中方差用来度量随机变量和其数学期望（即均值）之间的偏离程度。统计中的方差（样本方差）是各个数据分别与其平均数之差的平方的和的平均数。</p>
+</blockquote>
+<h4 id="定义：D-x-E-x-E-x-²"><a href="#定义：D-x-E-x-E-x-²" class="headerlink" title="定义：D(x)=E{[x-E(x)]²}"></a>定义：D(x)=E{[x-E(x)]²}</h4><pre><code>D(x)=1/n ∑[Xi - E(x)]²
+    =1/n ∑{Xi² + [E(x)]² - 2XiE(x)}
+    =1/n * ∑Xi² + 1/n * ∑[E(x)]² - 2 * E(x) * 1/n * ∑Xi
+    =E(X²) + 1/n * n * [E(x)]² - 2 * [E(x)]²
+    =E(X²) - [E(x)]²
+</code></pre><p><strong>D(X)=E(X²)-[E(X)]²,E(X)是数学期望值</strong><br><img src="https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8940280fde092442a7d9330e22.jpg" alt="enter image description here"></p>
+<p><code>协方差</code></p>
+<blockquote>
+<p>标准差和方差一般是用来描述一维数据的，但现实生活中我们常常会遇到含有多维数据的数据集，最简单的是大家上学时免不了要统计多个学科的考试成绩。面对这样的数据集，我们当然可以按照每一维独立的计算其方差，但是通常我们还想了解更多，比如，一个男孩子的猥琐程度跟他受女孩子的欢迎程度是否存在一些联系。协方差就是这样一种用来度量两个随机变量关系的统计量</p>
+</blockquote>
+<p><img src="/img/1497581961044.png" alt="Alt text"></p>
+<p><code>在两个向量都中心化(都减去对应特征的均值)后</code><br><strong>当协方差为0，则表示这两个向量线性无关，正交</strong></p>
+<blockquote>
+<p>协方差的结果有什么意义呢？如果结果为正值，则说明两者是正相关的（从协方差可以引出“相关系数”的定义），也就是说一个人越猥琐越受女孩欢迎。如果结果为负值， 就说明两者是负相关，越猥琐女孩子越讨厌。如果为0，则两者之间没有关系，猥琐不猥琐和女孩子喜不喜欢之间没有关联，就是统计上说的“相互独立”。</p>
+</blockquote>
+<p><code>协方差矩阵</code><br>前面提到的猥琐和受欢迎的问题是典型的二维问题，而协方差也只能处理二维问题，那维数多了自然就需要计算多个协方差，比如n维的数据集就需要计算<img src="/img/1497582075209.png" alt="Alt text">个协方差，那自然而然我们会想到使用矩阵来组织这些数据。给出协方差矩阵的定义：<br><img src="/img/1497582184602.png" alt="Alt text"><br>这个定义还是很容易理解的，我们可以举一个三维的例子，假设数据集有三个维度，则协方差矩阵为：<br><img src="/img/1497582167914.png" alt="Alt text"><br>可见，协方差矩阵是一个对称的矩阵，而且对角线是各个维度的方差。</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p><strong>将数据的维度降低</strong></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>数据默认已经中心化</strong></p>
+<pre><code>x投影到P的一组基上
+x1=[a1,a2,a3,...am]T （一条数据）
+原矩阵X=[x1,x2,x3,...xn] （n条数据）
+变换矩阵P是r个相互正交的行向量拼在一起
+变换后矩阵Y=P * X {(r*m) * (m*n) = r*n }
+r&lt;=m
+</code></pre><p><code>把数据的维度从m维降到r维</code></p>
+<p>度量Y的维度是否表示了原来X的主要成分，方法：方差<br><strong>方差越大，说明该维度数据越分散。更需要保留。</strong><br><code>Y的协方差矩阵D主对角线是各个维度的方差，其他元素则是各个维度两两之间的协方差</code></p>
+<blockquote>
+<p> <strong>优化目标:</strong>使D成为对角矩阵(除了主对角线其他元素都为0)<br> 等价于 使Y的各个维度之间正交<code>让X-&gt;Y能保留更多的信息</code></p>
+</blockquote>
+<pre><code>D=1/r * Y * Y.T
+ =1/r * (P*X) * (P*X).T
+ =1/r * p * (X * X.T) * P.T
+ =p * (1/r * X * X.T) * P.T
+另X的协方差矩阵C=1/m * X * X.T
+这里好像把1/r 直接变成了 1/m (这只是一个常数的问题,对于全部数据统一操作,应该不会造成问题)
+D=P * C * P.T
+</code></pre><h3 id="D-P-C-P-T"><a href="#D-P-C-P-T" class="headerlink" title="D=P  C  P.T"></a>D=P <em> C </em> P.T</h3><p>让这个矩阵对角化，数学上早已有解决办法<br>结论：</p>
+<blockquote>
+<ul>
+<li>C的特征值（与特征向量一一对应）按降序排列依次是每个维度上的方差。选出前K个特征向量单位化后组成P</li>
+<li>P的每一行都是C的一个特征向量。</li>
+</ul>
+</blockquote>
+<h3 id="得到降维后的数据"><a href="#得到降维后的数据" class="headerlink" title="得到降维后的数据"></a>得到降维后的数据</h3><blockquote>
+<ul>
+<li><strong>Y=P * X</strong></li>
+</ul>
+</blockquote>
+<p>Y即是变换后的数据矩阵（每一列是一条数据）</p>
+<h2 id="这个讲的特别清楚"><a href="#这个讲的特别清楚" class="headerlink" title="这个讲的特别清楚"></a>这个讲的特别清楚</h2><p><a href="http://blog.csdn.net/l494926429/article/details/52566693" target="_blank" rel="external">这里有好文</a></p>
+<h2 id="降到多少维度合适"><a href="#降到多少维度合适" class="headerlink" title="降到多少维度合适"></a>降到多少维度合适</h2><p>计算出的<code>原矩阵X的协方差矩阵的特征值</code>降序排列后得到一个list L</p>
+<blockquote>
+<p><strong>L的元素依次是每个维度上的方差</strong><br>LS = L[0]+L[1]+…+L[n]</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><code>主成分</code></th>
+<th style="text-align:right"><code>方差百分比</code></th>
+<th style="text-align:center"><code>累计方差百分比</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:right">L[0]/LS</td>
+<td style="text-align:center">L[0]/LS</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:right">L[1]/LS</td>
+<td style="text-align:center">（L[0]+L[1])/LS</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:right">L[2]/LS</td>
+<td style="text-align:center">(L[0]+L[1]+L[2])/LS</td>
+</tr>
+<tr>
+<td style="text-align:left">…</td>
+<td style="text-align:right">…</td>
+<td style="text-align:center">…</td>
+</tr>
+</tbody>
+</table>
+<p>有人使用能包含90%(<code>累计方差百分比</code>)信息量的主成分数量,<strong>或者更高</strong></p>
+<p>书中用的是包含了97%的信息量</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf8 -*-</span></div><div class="line"><span class="string">'''</span></div><div class="line">created at 2017-06-15</div><div class="line">author:Hao Jiawei</div><div class="line">'''</div><div class="line"></div><div class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</div><div class="line"><span class="keyword">import</span> matplotlib</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">(fileName=<span class="string">'testSet.txt'</span>, delim=<span class="string">'\t'</span>)</span>:</span></div><div class="line">    Dir = <span class="string">'D:\\IT_software\\python_code\\MachineLearningInAction\\machinelearninginaction\\Ch13'</span></div><div class="line">    file = <span class="string">'&#123;&#125;\\&#123;&#125;'</span>.format(Dir, fileName)</div><div class="line">    fr = open(file)</div><div class="line">    stringArr = [line.strip().split(delim) <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines()]</div><div class="line">    datArr = [map(float, line) <span class="keyword">for</span> line <span class="keyword">in</span> stringArr]</div><div class="line">    <span class="keyword">return</span> mat(datArr)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">pca</span><span class="params">(dataMat, topNfeat = <span class="number">9999999</span>)</span>:</span></div><div class="line">    meanVals = mean(dataMat, axis = <span class="number">0</span>)</div><div class="line">    meanRemoved = dataMat - meanVals</div><div class="line">    <span class="comment"># 原矩阵的协方差矩阵</span></div><div class="line">    covMat = cov(meanRemoved, rowvar = <span class="number">0</span>)</div><div class="line">    <span class="comment"># 求协方差矩阵的特征值和特征向量</span></div><div class="line">    eigVals, eigVects = linalg.eig(mat(covMat))</div><div class="line">    <span class="comment">#特征值升序排列</span></div><div class="line">    eigValInd = argsort(eigVals)</div><div class="line">    <span class="comment">#取出从大到小的前topNfeat个索引值</span></div><div class="line">    eigValInd = eigValInd[: -(topNfeat+<span class="number">1</span>):<span class="number">-1</span>]</div><div class="line">    redEigVects = eigVects[:, eigValInd]</div><div class="line">    lowDDataMat = meanRemoved * redEigVects <span class="comment">#降维后的数据</span></div><div class="line">    reconMat = (lowDDataMat * redEigVects.T) +meanVals</div><div class="line">    <span class="keyword">return</span> lowDDataMat, reconMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">plotRes</span><span class="params">(dataMat, reconMat)</span>:</span></div><div class="line">    fig = plt.figure()</div><div class="line">    ax = fig.add_subplot(<span class="number">111</span>)</div><div class="line">    ax.scatter(dataMat[:, <span class="number">0</span>].flatten().A[<span class="number">0</span>], dataMat[:, <span class="number">1</span>].flatten().A[<span class="number">0</span>], marker=<span class="string">'^'</span>, s=<span class="number">90</span>)</div><div class="line">    ax.scatter(reconMat[:, <span class="number">0</span>].flatten().A[<span class="number">0</span>], reconMat[:, <span class="number">1</span>].flatten().A[<span class="number">0</span>], marker=<span class="string">'o'</span>, s=<span class="number">50</span>, c=<span class="string">'red'</span>)</div><div class="line">    plt.show()</div><div class="line"></div><div class="line"><span class="comment"># 将所有缺失值设为该属性值的平均值</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">replaceNanWithMean</span><span class="params">()</span>:</span></div><div class="line">    dataMat = loadDataSet(<span class="string">'secom.data'</span>, <span class="string">' '</span>)</div><div class="line">    numFeat = shape(dataMat)[<span class="number">1</span>]</div><div class="line">    <span class="comment"># print dataMat[:,0].A</span></div><div class="line">    <span class="comment"># print ~isnan(dataMat[:,0].A)</span></div><div class="line">    <span class="comment"># print nonzero(~isnan(dataMat[:,0].A))</span></div><div class="line">    <span class="comment"># print nonzero(~isnan(dataMat[:,0].A))[0]</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numFeat):</div><div class="line">        meanVal = mean(dataMat[nonzero(~isnan(dataMat[:, i].A))[<span class="number">0</span>], i])</div><div class="line">        dataMat[nonzero(isnan(dataMat[:, i].A))[<span class="number">0</span>], i] = meanVal</div><div class="line">    <span class="keyword">return</span> dataMat</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/16/SVM文本情感分类/" rel="next" title="SVM文本情感分类">
+                <i class="fa fa-chevron-left"></i> SVM文本情感分类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Williams-Hao" />
+          <p class="site-author-name" itemprop="name">Williams-Hao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PCA降维"><span class="nav-number">1.</span> <span class="nav-text">PCA降维</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关概念"><span class="nav-number">1.1.</span> <span class="nav-text">相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义：D-x-E-x-E-x-²"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">定义：D(x)=E{[x-E(x)]²}</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.2.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.3.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#D-P-C-P-T"><span class="nav-number">1.3.1.</span> <span class="nav-text">D=P  C  P.T</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#得到降维后的数据"><span class="nav-number">1.3.2.</span> <span class="nav-text">得到降维后的数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#这个讲的特别清楚"><span class="nav-number">1.4.</span> <span class="nav-text">这个讲的特别清楚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#降到多少维度合适"><span class="nav-number">1.5.</span> <span class="nav-text">降到多少维度合适</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.6.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Williams-Hao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
