@@ -1,0 +1,761 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SVD,简化数据," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="[TOC] SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AA.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T  A=E，则n阶实矩阵A称为正交矩阵2、A逆 = A.T 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数">
+<meta name="keywords" content="SVD,简化数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVD简化数据">
+<meta property="og:url" content="https://williams-hao.github.io/2017/07/02/SVD简化数据/index.html">
+<meta property="og:site_name" content="所有的伟大,源于一个勇敢的开始">
+<meta property="og:description" content="[TOC] SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AA.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T  A=E，则n阶实矩阵A称为正交矩阵2、A逆 = A.T 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226342650.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fh6g9ql2vyj20qm0fot9y.jpg">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226358289.png">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226356370.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105140822191-1774139119.png">
+<meta property="og:image" content="https://williams-hao.github.io/img/black.png">
+<meta property="og:updated_time" content="2017-07-03T02:37:32.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVD简化数据">
+<meta name="twitter:description" content="[TOC] SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AA.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T  A=E，则n阶实矩阵A称为正交矩阵2、A逆 = A.T 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数">
+<meta name="twitter:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226342650.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://williams-hao.github.io/2017/07/02/SVD简化数据/"/>
+
+
+
+
+
+  <title>SVD简化数据 | 所有的伟大,源于一个勇敢的开始</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">所有的伟大,源于一个勇敢的开始</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">所有的伟大,源于一个勇敢的开始</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://williams-hao.github.io/2017/07/02/SVD简化数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Williams-Hao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="所有的伟大,源于一个勇敢的开始">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SVD简化数据</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-02T20:25:54+08:00">
+                2017-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习-降维/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习-降维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h1 id="SVD原理介绍"><a href="#SVD原理介绍" class="headerlink" title="SVD原理介绍"></a>SVD原理介绍</h1><h2 id="数学概念"><a href="#数学概念" class="headerlink" title="数学概念"></a>数学概念</h2><blockquote>
+<ul>
+<li><code>SVD</code>: 奇异值分解(Singular Value Decomposition)</li>
+<li><code>正交矩阵</code>：<br>1、如果A<em>A.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T </em> A=E，则n阶实矩阵A称为正交矩阵<br>2、<strong>A逆 = A.T</strong></li>
+<li><code>酉矩阵</code>：<br>1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然<strong>酉矩阵是正交矩阵往复数域上的推广</strong>。<br>2、  是酉矩阵的充分必要条件是，<strong>它的n个列向量是两两正交的单位向量</strong></li>
+</ul>
+</blockquote>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>m*n的矩阵X可以分解为</strong></p>
+<h3 id="Xmn-Umm-Σmn-VTnn"><a href="#Xmn-Umm-Σmn-VTnn" class="headerlink" title="Xmn = Umm  Σmn  VTnn"></a>X<sub>m<em>n</em></sub> = U<sub>mm</sub> <em> Σ<sub>m</sub></em>n <em> V<sup>T</sup><sub>n</sub></em>n</h3><p><a href="http://www.cnblogs.com/LeftNotEasy/archive/2011/01/19/svd-and-applications.html" target="_blank" rel="external">这部分图片与文字摘自这里</a></p>
+<p><img src="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226342650.png" alt="enter image description here"></p>
+<p><code>U 、V&lt;sup&gt;T&lt;/sup&gt;是酉矩阵，也是正交矩阵, Σ是是一个m * n的矩阵（除了对角线的元素都是0，对角线上的元素称为奇异值</code></p>
+<blockquote>
+<ul>
+<li><strong>U的每一行都是A*A<sup>T</sup>的特征向量</strong></li>
+<li><strong>V的每一行都是A<sup>T</sup>*A的特征向量</strong></li>
+</ul>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fh6g9ql2vyj20qm0fot9y.jpg" alt=""></p>
+<p><strong>在很多情况下，前10%甚至1%的奇异值的和就占了全部的奇异值之和的99%以上了。也就是说，我们也可以用前r大的奇异值来近似描述矩阵，这里定义一下部分奇异值分解:</strong><br><img src="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226358289.png" alt="enter image description here"><br> r是一个远小于m、n的数，这样矩阵的乘法看起来像是下面的样子<br> <img src="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226356370.png" alt="enter image description here"></p>
+<p>右边的三个矩阵相乘的结果将会是一个接近于A的矩阵，在这儿，r越接近于n，则相乘的结果越接近于A。而这三个矩阵的面积之和（在存储观点来说，矩阵面积越小，存储量就越小）要远远小于原始的矩阵A，我们如果想要压缩空间来表示原矩阵A，我们存下这里的三个矩阵：U、Σ、V就好了。</p>
+<p>更形象的图片：<br><img src="http://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105140822191-1774139119.png" alt="enter image description here"></p>
+<h3 id="手动求解SVD"><a href="#手动求解SVD" class="headerlink" title="手动求解SVD"></a>手动求解SVD</h3><p><a href="http://www.cnblogs.com/pinard/p/6251584.html" target="_blank" rel="external">看这里</a></p>
+<h1 id="SVD协同过滤推荐引擎"><a href="#SVD协同过滤推荐引擎" class="headerlink" title="SVD协同过滤推荐引擎"></a>SVD协同过滤推荐引擎</h1><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p><code>协同过滤：</code>通过将用户和其他用户的数据进行对比来实现推荐</p>
+<h2 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h2><p><strong>基于物品的相似性的推荐</strong></p>
+<p><code>思想</code>：</p>
+<blockquote>
+<ul>
+<li><strong>用2类物品的不同用户评价列向量的相似性,乘以该用户已知类物品的评价,来作为该用户未知评价物品的评价因子(t).</strong></li>
+<li><strong>用户已知物品评价为多个,对t加权取平均作为未知评价物品的评价</strong></li>
+</ul>
+</blockquote>
+<p>行：每个用户   列：每个物品</p>
+<pre><code>mat=[[4, 4, 0, 2, 2],
+     [4, 0, 0, 3, 3],
+     [4, 0, 0, 1, 1],
+     [1, 1, 1, 2, 0],
+     [2, 2, 2, 0, 0],
+     [1, 1, 1, 0, 0],
+     [5, 5, 5, 0, 0]]
+</code></pre><p>eg:   对user=2进行推荐<br>        mat[2,1] mat[2,2]为0。为user=2用户针对第二个和第三个物品推荐<br>        先对它进行推荐：mat[2,1]<br>            按列扫描矩阵,第j列：<br>            j=0,<br>            如果user=2用户未评价这个物品，跳过。<br>            否则：<br>                1、针对第j列和第2列寻找对这2个物品都评价的用户。<br>                2、如果没有这样的用户则不处理。<br>                3、如果有这样的用户，则计算这些用户第j列和第2列评价的相似度(mat里面的第j列和第2列的某几行分别组成的2个列向量来计算相似度)<br>                即：</p>
+<pre><code>[4] [4]
+[1] [1]
+[2] [2]
+[1] [1]
+[5] [5]
+</code></pre><p>4、ratSimTotal += 第j列user行的评价 * 上面相似度<br>                    simTotal += 上面相似度<br>        最后循环完每一列后<br>        return ratSimTotal/simTotal</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf8 -*-</span></div><div class="line"><span class="string">'''</span></div><div class="line">created at 2017-06-15</div><div class="line">author:Hao Jiawei</div><div class="line">'''</div><div class="line"></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> linalg <span class="keyword">as</span> la</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadExData</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> [[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</div><div class="line">            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],</div><div class="line">            [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</div><div class="line">            [<span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>],</div><div class="line">            [<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>],</div><div class="line">            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">3</span>],</div><div class="line">            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>]]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadExData2</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span>[[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>],</div><div class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>],</div><div class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>],</div><div class="line">           [<span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],</div><div class="line">           [<span class="number">5</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>],</div><div class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>],</div><div class="line">           [<span class="number">4</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>],</div><div class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>],</div><div class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>],</div><div class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>],</div><div class="line">           [<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line">           ]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">euclidSim</span><span class="params">(inA, inB)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1.0</span> / (<span class="number">1.0</span> + la.norm(inA - inB))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">pearsSim</span><span class="params">(inA, inB)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(inA) &lt; <span class="number">3</span> :</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    <span class="keyword">print</span> np.corrcoef(inA, inB, rowvar= <span class="number">0</span>)</div><div class="line">    <span class="keyword">print</span> np.corrcoef(inA, inB, rowvar= <span class="number">0</span>)[<span class="number">0</span>][<span class="number">1</span>]</div><div class="line">    <span class="keyword">return</span> <span class="number">0.5</span> + <span class="number">0.5</span> * np.corrcoef(inA, inB, rowvar= <span class="number">0</span>)[<span class="number">0</span>][<span class="number">1</span>] <span class="comment"># 相关系数矩阵的第i行,第j列是原矩阵第i,j列的相关系数</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">cosSim</span><span class="params">(inA, inB)</span>:</span></div><div class="line">    num = float(inA.T * inB)</div><div class="line">    denom = la.norm(inA) * la.norm(inB)</div><div class="line">    <span class="keyword">return</span> <span class="number">0.5</span> + <span class="number">0.5</span> * (num / denom)</div><div class="line"></div><div class="line"><span class="string">'''</span></div><div class="line">    基于物品的相似性的推荐</div><div class="line">    思想：用2类物品的不同用户评价列向量的相似性,乘以该用户已知类物品的评价,来作为该用户未知评价物品的评价因子(t).</div><div class="line">    用户已知物品评价为多个,对t加权取平均作为未知评价物品的评价</div><div class="line">    行：每个用户   列：每个物品</div><div class="line">mat=[[4, 4, 0, 2, 2],</div><div class="line">    [4, 0, 0, 3, 3],</div><div class="line">    [4, 0, 0, 1, 1],</div><div class="line">    [1, 1, 1, 2, 0],</div><div class="line">    [2, 2, 2, 0, 0],</div><div class="line">    [1, 1, 1, 0, 0],</div><div class="line">    [5, 5, 5, 0, 0]]</div><div class="line">    eg:对user=2进行推荐</div><div class="line">        mat[2,1] mat[2,2]为0。为user=2用户针对第二个和第三个物品推荐</div><div class="line"></div><div class="line">        mat[2,1]</div><div class="line">            按列扫描矩阵,第j列：</div><div class="line">            j=0,如果user=2用户未评价这个物品，跳过。</div><div class="line">            否则：</div><div class="line">                1、针对第j列和第2列寻找对这2个物品都评价的用户。</div><div class="line">                2、如果没有这样的用户则不处理。</div><div class="line">                3、如果有这样的用户，则计算这些用户第j列和第2列评价的相似度(mat里面的第j列和第2列的某几行分别组成的2个列向量来计算相似度)</div><div class="line">                即：[4][4]</div><div class="line">                    [1][1]</div><div class="line">                    [2][2]</div><div class="line">                    [1][1]</div><div class="line">                    [5][5]</div><div class="line">                4、ratSimTotal += 第j列user行的评价 * 上面相似度</div><div class="line">                    simTotal += 上面相似度</div><div class="line">        最后循环完每一列后</div><div class="line">        return ratSimTotal/simTotal</div><div class="line">'''</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">standEst</span><span class="params">(dataMat, user, simMeas, item)</span>:</span></div><div class="line">    n = np.shape(dataMat)[<span class="number">1</span>] <span class="comment"># 物品数目</span></div><div class="line">    simTotal = <span class="number">0.0</span>; ratSimTotal = <span class="number">0.0</span></div><div class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">        userRating = dataMat[user, j] <span class="comment"># 某用户对每个商品的评价</span></div><div class="line">        <span class="keyword">if</span> userRating == <span class="number">0</span>:</div><div class="line">            <span class="keyword">continue</span> <span class="comment"># 若该用户对第j个物品未评价，则跳过</span></div><div class="line">        overLap = np.nonzero(np.logical_and(dataMat[:, item].A &gt; <span class="number">0</span>, dataMat[:, j].A &gt; <span class="number">0</span>))[<span class="number">0</span>] <span class="comment"># 针对第item个物品和第j个物品，寻找哪些用户都对其进行了评价</span></div><div class="line">        <span class="keyword">if</span> len(overLap) == <span class="number">0</span>:</div><div class="line">            similarity = <span class="number">0</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># 如果有M(M&gt;=2)个用户对第item个物品和第j个物品都评价了，则计算这2种物品在这几个用户评价的相似度</span></div><div class="line">            similarity = simMeas(dataMat[overLap, item], dataMat[overLap, j])</div><div class="line">        <span class="keyword">print</span> <span class="string">'the &#123;&#125; and &#123;&#125; similiarity is: &#123;&#125;'</span>.format(item, j, similarity)</div><div class="line">        simTotal += similarity</div><div class="line">        ratSimTotal += similarity * userRating</div><div class="line">    <span class="keyword">if</span> simTotal == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> ratSimTotal / simTotal</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">recommend</span><span class="params">(dataMat, user, N=<span class="number">10</span>, simMeas=cosSim, estMethod=standEst)</span>:</span></div><div class="line">    unratedItems = np.nonzero(dataMat[user, :].A ==<span class="number">0</span>)[<span class="number">1</span>] <span class="comment"># 该用户未评价的物品列表</span></div><div class="line">    <span class="keyword">if</span> len(unratedItems) == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'you rated everything'</span></div><div class="line">    itemScores = []</div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> unratedItems:</div><div class="line">        estimatedScore = estMethod(dataMat, user, simMeas, item)</div><div class="line">        itemScores.append((item, estimatedScore))</div><div class="line">    <span class="keyword">return</span> sorted(itemScores, key=<span class="keyword">lambda</span> k: k[<span class="number">1</span>], reverse=<span class="keyword">True</span>)[:N]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">svdEst</span><span class="params">(dataMat, user, simMeas, item)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'item:&#123;&#125;'</span>.format(item)</div><div class="line">    n = np.shape(dataMat)[<span class="number">1</span>]</div><div class="line">    simTotal = <span class="number">0.0</span>; ratSimTotal = <span class="number">0.0</span></div><div class="line">    U, Sigma, VT = la.svd(dataMat)</div><div class="line">    Sig4 = np.mat(np.eye(<span class="number">4</span>) * Sigma[:<span class="number">4</span>])</div><div class="line">    <span class="comment"># print 'U:',U.shape, U</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'Sigma:'</span>,Sigma.shape, Sigma</div><div class="line">    <span class="comment"># print 'VT',VT.shape, VT</span></div><div class="line">    <span class="comment"># print 'Sig4', Sig4.shape, Sig4</span></div><div class="line">    <span class="comment"># print 'Sig4.I', Sig4.I</span></div><div class="line"></div><div class="line">    <span class="comment"># 压缩为(n,4)矩阵,xformedItems.T表示4个人对n个物品的评价</span></div><div class="line">    xformedItems = dataMat.T * U[:, :<span class="number">4</span>] * Sig4.I</div><div class="line"></div><div class="line">    <span class="comment"># xformedItems2 = dataMat.T * U[:, :4] * Sig4</span></div><div class="line"></div><div class="line">    <span class="comment"># print xformedItems.shape</span></div><div class="line">    <span class="comment"># print xformedItems</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">        <span class="keyword">print</span> <span class="string">'j:&#123;&#125;'</span>.format(j)</div><div class="line">        userRating = dataMat[user, j]</div><div class="line">        <span class="keyword">if</span> userRating == <span class="number">0</span> <span class="keyword">or</span> j == item:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="comment"># 求第j个物品和第item个物品评论的相似性</span></div><div class="line">        similarity = simMeas(xformedItems[item, :].T, xformedItems[j, :].T)</div><div class="line">        <span class="keyword">print</span> <span class="string">'the &#123;&#125; and &#123;&#125; similarity is: &#123;&#125;'</span>.format(item,j,similarity)</div><div class="line">        simTotal += similarity</div><div class="line">        <span class="comment"># 两个物品评价的相似性 * 已知评价的物品评价 ,来预测未评价物品的评价</span></div><div class="line">        ratSimTotal += similarity * userRating</div><div class="line">    <span class="keyword">if</span> simTotal == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> ratSimTotal / simTotal</div></pre></td></tr></table></figure>
+<h1 id="SVD压缩图片"><a href="#SVD压缩图片" class="headerlink" title="SVD压缩图片"></a>SVD压缩图片</h1><h2 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf8 -*-</span></div><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> linalg <span class="keyword">as</span> la</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">rebuild_img</span><span class="params">(u, sigma, vt, p)</span>:</span> <span class="comment">#p表示奇异值的百分比</span></div><div class="line">    <span class="keyword">print</span> p</div><div class="line">    U = np.mat(u)</div><div class="line">    VT = np.mat(vt)</div><div class="line">    count = sum(sigma)</div><div class="line">    <span class="keyword">print</span> <span class="string">'count:&#123;&#125;'</span>.format(count)</div><div class="line">    <span class="keyword">print</span> <span class="string">'count * p:&#123;&#125;'</span>.format(count * p)</div><div class="line">    curSum = <span class="number">0.0</span></div><div class="line">    k = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> curSum &lt;= count * p:</div><div class="line">        curSum = sum(sigma[:k])</div><div class="line">        k += <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="string">'k:'</span>,k</div><div class="line">    Sig = np.mat(np.eye(k) * sigma[:k])</div><div class="line">    res = U[:,:k] * Sig * VT[:k, :]</div><div class="line">    r = res.A</div><div class="line">    r[r &lt; <span class="number">0</span>] = <span class="number">0</span></div><div class="line">    r[r &gt; <span class="number">255</span>] = <span class="number">255</span></div><div class="line">    <span class="keyword">return</span> np.rint(r).astype(<span class="string">"uint8"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    pict = <span class="string">'black.jpg'</span></div><div class="line">    path = <span class="string">'C:\\Users\\Administrator\\Downloads\\'</span> + pict</div><div class="line">    img = Image.open(path)</div><div class="line">    img_arr = np.array(img)</div><div class="line">    p = <span class="number">0.9</span></div><div class="line">    U0, S0, VT0 = la.svd(img_arr[:, :, <span class="number">0</span>])</div><div class="line">    U1, S1, VT1 = la.svd(img_arr[:, :, <span class="number">1</span>])</div><div class="line">    U2, S2, VT2 = la.svd(img_arr[:, :, <span class="number">2</span>])</div><div class="line"></div><div class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> np.arange(<span class="number">0.1</span>, <span class="number">1</span>, <span class="number">0.1</span>):</div><div class="line">        R = rebuild_img(U0, S0, VT0, p)</div><div class="line">        G = rebuild_img(U1, S1, VT1, p)</div><div class="line">        B = rebuild_img(U2, S2, VT2, p)</div><div class="line">        I = np.stack((R, G, B), <span class="number">2</span>)</div><div class="line">        <span class="comment">#保存图片在img文件夹下</span></div><div class="line">        Image.fromarray(I).save(<span class="string">"C:\\Users\\Administrator\\Downloads\\black\\svd_"</span> + str(p * <span class="number">100</span>) +<span class="string">'_'</span>+ pict)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    test()</div></pre></td></tr></table></figure>
+<p><img src="/img/black.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SVD/" rel="tag"># SVD</a>
+          
+            <a href="/tags/简化数据/" rel="tag"># 简化数据</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/19/PCA降维/" rel="next" title="PCA降维">
+                <i class="fa fa-chevron-left"></i> PCA降维
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Williams-Hao" />
+          <p class="site-author-name" itemprop="name">Williams-Hao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD原理介绍"><span class="nav-number">1.</span> <span class="nav-text">SVD原理介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数学概念"><span class="nav-number">1.1.</span> <span class="nav-text">数学概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmn-Umm-Σmn-VTnn"><span class="nav-number">1.2.1.</span> <span class="nav-text">Xmn = Umm  Σmn  VTnn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动求解SVD"><span class="nav-number">1.2.2.</span> <span class="nav-text">手动求解SVD</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD协同过滤推荐引擎"><span class="nav-number">2.</span> <span class="nav-text">SVD协同过滤推荐引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思想"><span class="nav-number">2.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做法"><span class="nav-number">2.2.</span> <span class="nav-text">做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD压缩图片"><span class="nav-number">3.</span> <span class="nav-text">SVD压缩图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现-1"><span class="nav-number">3.1.</span> <span class="nav-text">实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Williams-Hao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
