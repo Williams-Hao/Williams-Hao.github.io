@@ -1,0 +1,821 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="线性回归,岭回归,Lasso," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="几种回归算法回归目的：预测数值型的目标值 做法：用曲线去拟合数据的趋势,达到预测未知数据的目的  损失函数：平方损失函数  线性回归思想求一组参数，使得和数据拟合较好，使得损失函数最小化。 画出一条直线 推导此文公式推导有点问题： 该文写得好，不忍赘述 下面图片摘自  假设有训练数据    那么为了方便我们写成矩阵的形式  损失函数：   J(w) = Σ(yi - hw(xi) )2=(Y-XW">
+<meta name="keywords" content="线性回归,岭回归,Lasso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="几种回归算法">
+<meta property="og:url" content="https://williams-hao.github.io/2017/07/11/几种回归算法/index.html">
+<meta property="og:site_name" content="所有的伟大,源于一个勇敢的开始">
+<meta property="og:description" content="几种回归算法回归目的：预测数值型的目标值 做法：用曲线去拟合数据的趋势,达到预测未知数据的目的  损失函数：平方损失函数  线性回归思想求一组参数，使得和数据拟合较好，使得损失函数最小化。 画出一条直线 推导此文公式推导有点问题： 该文写得好，不忍赘述 下面图片摘自  假设有训练数据    那么为了方便我们写成矩阵的形式  损失函数：   J(w) = Σ(yi - hw(xi) )2=(Y-XW">
+<meta property="og:image" content="http://img.blog.csdn.net/20160514123333785?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://images.cnitblog.com/blog2015/633472/201503/262037556613399.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog2015/633472/201503/262041198028564.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog2015/633472/201503/262042295678545.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/84976/201610/84976-20161016091207452-1108130635.png">
+<meta property="og:image" content="https://pic3.zhimg.com/1d803ede1555b8d6789ba15cf432ff82_b.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20151017110514600">
+<meta property="og:image" content="http://img.blog.csdn.net/20151017110736544">
+<meta property="og:image" content="http://img.blog.csdn.net/20151017110917633">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-bdc47b9217c9615668937406a78519f9_b.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhforaaaomj23402c0kjl.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-ad246eef7d34d788c1019bbd204897d4_b.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhfp3y0lopj20dm04v3yj.jpg">
+<meta property="og:image" content="http://img.blog.csdn.net/20151121203008782?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2017-07-11T01:59:52.471Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="几种回归算法">
+<meta name="twitter:description" content="几种回归算法回归目的：预测数值型的目标值 做法：用曲线去拟合数据的趋势,达到预测未知数据的目的  损失函数：平方损失函数  线性回归思想求一组参数，使得和数据拟合较好，使得损失函数最小化。 画出一条直线 推导此文公式推导有点问题： 该文写得好，不忍赘述 下面图片摘自  假设有训练数据    那么为了方便我们写成矩阵的形式  损失函数：   J(w) = Σ(yi - hw(xi) )2=(Y-XW">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160514123333785?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://williams-hao.github.io/2017/07/11/几种回归算法/"/>
+
+
+
+
+
+  <title>几种回归算法 | 所有的伟大,源于一个勇敢的开始</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">所有的伟大,源于一个勇敢的开始</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">所有的伟大,源于一个勇敢的开始</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://williams-hao.github.io/2017/07/11/几种回归算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Williams-Hao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="所有的伟大,源于一个勇敢的开始">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">几种回归算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-11T09:55:39+08:00">
+                2017-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习-回归/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习-回归</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="几种回归算法"><a href="#几种回归算法" class="headerlink" title="几种回归算法"></a>几种回归算法</h1><h2 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h2><p><code>目的：预测数值型的目标值</code><br> <strong>做法：用曲线去拟合数据的趋势,达到预测未知数据的目的</strong></p>
+<blockquote>
+<p>损失函数：平方损失函数</p>
+</blockquote>
+<h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>求一组参数，使得和数据拟合较好，使得损失函数最小化。</p>
+<p><code>画出一条直线</code><br><img src="http://img.blog.csdn.net/20160514123333785?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="enter image description here"></p>
+<h3 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h3><p>此文公式推导有点问题： <a href="http://www.cnblogs.com/softlin/p/5965939.html" target="_blank" rel="external">该文写得好，不忍赘述</a></p>
+<p><a href="http://www.cnblogs.com/GuoJiaSheng/p/3928160.html" target="_blank" rel="external">下面图片摘自</a><br><img src="http://images.cnitblog.com/blog2015/633472/201503/262037556613399.jpg" alt="enter image description here"><br>  假设有训练数据<br>  <img src="http://images.cnitblog.com/blog2015/633472/201503/262041198028564.jpg" alt="enter image description here"><br>  那么为了方便我们写成矩阵的形式</p>
+<p><img src="http://images.cnitblog.com/blog2015/633472/201503/262042295678545.jpg" alt="enter image description here"></p>
+<p>损失函数：</p>
+<blockquote>
+<ul>
+<li>J(w) = Σ(y<sub>i</sub> - h<sub>w</sub>(xi) )<sup>2</sup><br>=(Y-XW)<sup>T</sup>(Y-XW)<br>=(Y<sup>T</sup> - (XW)<sup>T</sup>) <em> (Y-XW)<br>=(Y<sup>T</sup> - W<sup>T</sup>X<sup>T</sup>) </em> (Y - XW)<br>=Y<sup>T</sup>Y - Y<sup>T</sup>XW - W<sup>T</sup>X<sup>T</sup>Y +  W<sup>T</sup>X<sup>T</sup>XW<br>=Y<sup>T</sup>Y - 2W<sup>T</sup>X<sup>T</sup>Y  +  W<sup>T</sup>X<sup>T</sup>XW</li>
+</ul>
+<p>这里： Y<sup>T</sup>XW  == W<sup>T</sup>X<sup>T</sup>Y</p>
+<ul>
+<li>因为：<br>  Y.shape=(m,1)<br>  X.shape=(m,n)<br>  W.shape=(n,1)<br>  Y<sup>T</sup>XW = (1,m) <em> (m,n) </em> (n,1) = (1,1)  即一个数<br>  W<sup>T</sup>X<sup>T</sup>Y = (1,n) <em> (n,m) </em> (m,1) = (1,1)  即一个数<br>  故两者相等</li>
+</ul>
+</blockquote>
+<p><img src="http://images2015.cnblogs.com/blog/84976/201610/84976-20161016091207452-1108130635.png" alt="enter image description here"></p>
+<p>故：J对W求导得：<br>-2X<sup>T</sup>Y + 2X<sup>T</sup>XW</p>
+<p>令其等于0，得：<br>X<sup>T</sup>Y = X<sup>T</sup>XW</p>
+<blockquote>
+<ul>
+<li>W =  (X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>Y</li>
+</ul>
+</blockquote>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p><code>standRegres()</code></p>
+<h2 id="局部加权线性回归"><a href="#局部加权线性回归" class="headerlink" title="局部加权线性回归"></a>局部加权线性回归</h2><h3 id="思想-1"><a href="#思想-1" class="headerlink" title="思想"></a>思想</h3><p><code>线性回归存在的问题：有可能出现欠拟合现象</code><br><strong>因为它求的是具有最小均方误差的无偏估计</strong></p>
+<p>所以，允许在估计中引入一些偏差，从而降低预测的均方误差</p>
+<p><code>无偏估计:</code></p>
+<blockquote>
+<ul>
+<li>其实就是样本均值的期望等于总体均值。</li>
+</ul>
+<ul>
+<li>无偏估计啊。。。。<br>设总体均值为μ，样本均值为$\bar{x}$<br>无偏估计就是：<br>E( $\bar{x}$ ) =$\mu$<br>这么说吧：<br>同一个总体，一次抽样什么幺蛾子都有可能出现。<br>但是只要你肯一直坚持不懈的抽样下去，每次的样本均值的均值，还等于总体均值——就是无偏的。</li>
+</ul>
+</blockquote>
+<h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p><strong>给预测点附近的每一个点都赋予权重。随着样本点与待预测点距离递增，权重将以指数级衰减</strong></p>
+<p>这里的$\theta$ 即是上面的W</p>
+<p>损失函数J：<br><img src="https://pic3.zhimg.com/1d803ede1555b8d6789ba15cf432ff82_b.png" alt="enter image description here"><br>矩阵形式表示：<br>J=(Y-X$\theta$)<sup>T</sup>W(Y-X$\theta$)</p>
+<blockquote>
+<ul>
+<li><p>W是一个对角矩阵W[i][i] 代表第i个数据的权重</p>
+</li>
+<li><p>与线性回归类似,中间多了一个W<br>这是高斯核权重：<br>  $$w(i,i) = exp(\frac{\left|x^i-x\right|}{-2k^2})$$</p>
+</li>
+</ul>
+</blockquote>
+<p>J=Y<sup>T</sup>WY - 2$\theta$<sup>T</sup>X<sup>T</sup>WY  +  $\theta$<sup>T</sup>X<sup>T</sup>WX$\theta$</p>
+<p>J对$\theta$求导：<br>-2 X<sup>T</sup>WY + 2 X<sup>T</sup>WX$\theta$ = 0<br>得：</p>
+<blockquote>
+<ul>
+<li>$\theta$ = (X<sup>T</sup>WX)<sup>-1</sup>X<sup>T</sup>WY</li>
+</ul>
+</blockquote>
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><p><code>lwlr()、lwlrTest()</code></p>
+<p>当k=1.0时，权重很大，相当于将所有数据视为等权重，得出的最佳拟合直线与标准线性回归一致：<br><img src="http://img.blog.csdn.net/20151017110514600" alt="enter image description here"></p>
+<p>当使用k=0.01时：<br><img src="http://img.blog.csdn.net/20151017110736544" alt="enter image description here"></p>
+<p>当使用k=0.003时：<br><img src="http://img.blog.csdn.net/20151017110917633" alt="enter image description here"></p>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><h3 id="思想-2"><a href="#思想-2" class="headerlink" title="思想"></a>思想</h3><p>　岭回归又称脊回归，它的名字来源于模型的解与正则化参数λ之间的图像</p>
+<p>问题：线性回归使用最小二乘法会遇到问题：X<sup>T</sup>X是否可逆 &lt;=&gt;X是否可逆</p>
+<blockquote>
+<ul>
+<li>|A|=0 &lt;=&gt;A不可逆&lt;=&gt;奇异矩阵&lt;=&gt;非满秩矩阵</li>
+<li>r(A)=r(A<sup>T</sup>)=r(AA<sup>T</sup>)=r(A<sup>T</sup>A)<br>证明：<a href="https://www.zybang.com/question/54024709959209a7b4018af3dd7d700d.html" target="_blank" rel="external">这里</a>   或者<a href="https://www.zhihu.com/question/52114460" target="_blank" rel="external">这里</a></li>
+</ul>
+</blockquote>
+<p>为了消除共线性，引入岭回归。增加原矩阵稳定性。使得X<sup>T</sup>X可逆</p>
+<p>岭回归(Ridge Regression)是在平方误差的基础上增加正则项（正则化的l2范数）</p>
+<p><img src="https://pic2.zhimg.com/v2-bdc47b9217c9615668937406a78519f9_b.png" alt="enter image description here"></p>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhforaaaomj23402c0kjl.jpg" alt=""></p>
+<p>岭参数选择：<br><img src="https://pic1.zhimg.com/v2-ad246eef7d34d788c1019bbd204897d4_b.png" alt="enter image description here"></p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><blockquote>
+<ul>
+<li>用于在估计中加入偏差，得到更好的估计</li>
+<li>通过引入$\lambda$ 来限制所有w之和。</li>
+<li>通过引入这个惩罚项，能够减少不重要的参数，也叫shrinkage(缩减)</li>
+</ul>
+</blockquote>
+<p>1.岭回归可以解决特征数量比样本量多的问题<br>2.岭回归作为一种缩减算法可以判断哪些特征重要或者不重要，有点类似于降维的效果<br>3.缩减算法可以看作是对一个模型增加偏差的同时减少方差</p>
+<h3 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h3><p>需要将数据标准化：所有特征都减去各自的均值并除以方差</p>
+<p><code>ridgeRegres()、ridegTest()</code></p>
+<p><a href="http://blog.sina.com.cn/s/blog_e386b39f0102vzrv.html" target="_blank" rel="external">好文推荐</a></p>
+<h2 id="lasso"><a href="#lasso" class="headerlink" title="lasso"></a>lasso</h2><h3 id="思想-3"><a href="#思想-3" class="headerlink" title="思想"></a>思想</h3><blockquote>
+<ul>
+<li>lasso是在线性回归基础上增加L1正则项而来的。</li>
+<li>L1范数的好处是当$\lambda$充分大时可以把某些待估系数精确地收缩到0。</li>
+<li>最小的绝对收缩通过构造一个一阶惩罚函数获得一个精炼的模型，通过最终确定一些指标（变量）的系数为0（岭回归估计系数等于0的机会微乎其微），解释力很强。擅长处理具有多重共线性的数据，与岭回归一样是有偏估计</li>
+</ul>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhfp3y0lopj20dm04v3yj.jpg" alt=""></p>
+<h3 id="做法-1"><a href="#做法-1" class="headerlink" title="做法"></a>做法</h3><p><code>前向逐步回归</code><br><img src="http://img.blog.csdn.net/20151121203008782?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="enter image description here"></p>
+<h3 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h3><p><code>stageWise()</code></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment"># -*- coding:utf8 -*-</span></div><div class="line"><span class="string">'''</span></div><div class="line">created at 2017-06-15</div><div class="line">author:Hao Jiawei</div><div class="line">'''</div><div class="line"></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> linalg <span class="keyword">as</span> la</div><div class="line"><span class="keyword">import</span> matplotlib</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> datetime</div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"></div><div class="line">baseDir = <span class="string">'D:\\IT_software\\python_code\MachineLearningInAction\\machinelearninginaction\\Ch08\\'</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">(fileName=<span class="string">'ex0.txt'</span>)</span>:</span></div><div class="line">    fileName = baseDir + fileName</div><div class="line">    lines = open(fileName).readlines()</div><div class="line">    numFeat = len(lines[<span class="number">0</span>].split(<span class="string">'\t'</span>)) <span class="number">-1</span></div><div class="line">    dataMat = []; labelMat = []</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</div><div class="line">        lineArr = []</div><div class="line">        curLine = line.strip().split(<span class="string">'\t'</span>)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(numFeat):</div><div class="line">            lineArr.append(float(curLine[i]))</div><div class="line">        dataMat.append(lineArr)</div><div class="line">        labelMat.append(float(curLine[<span class="number">-1</span>]))</div><div class="line">    <span class="keyword">return</span> dataMat, labelMat</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">standRegres</span><span class="params">(xArr, yArr)</span>:</span></div><div class="line">    xMat = np.mat(xArr); yMat = np.mat(yArr).T</div><div class="line">    xTx = xMat.T * xMat</div><div class="line">    <span class="keyword">if</span> la.det(xTx) == <span class="number">0.0</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'this matrix is singular, cannot do inverse'</span></div><div class="line">        <span class="keyword">return</span></div><div class="line">    ws = xTx.I * (xMat.T * yMat)</div><div class="line">    <span class="keyword">return</span> ws</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcxSort</span><span class="params">(xMat)</span>:</span></div><div class="line">    srtInd = xMat[:, <span class="number">1</span>].argsort(<span class="number">0</span>)</div><div class="line">    xSort = xMat[srtInd][:, <span class="number">0</span>, :]</div><div class="line">    <span class="keyword">return</span> xSort, srtInd</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot</span><span class="params">(xMat, yMat, yHat)</span>:</span></div><div class="line">    fig = plt.figure()</div><div class="line">    ax = fig.add_subplot(<span class="number">111</span>)</div><div class="line"></div><div class="line">    srtInd = xMat[:, <span class="number">1</span>].argsort(<span class="number">0</span>)</div><div class="line">    xSort = xMat[srtInd][:, <span class="number">0</span>, :]</div><div class="line"></div><div class="line">    ax.plot(xSort[:, <span class="number">1</span>], yHat[srtInd])</div><div class="line"></div><div class="line">    ax.scatter(xMat[:, <span class="number">1</span>].flatten().A[<span class="number">0</span>], yMat.T.flatten().A[<span class="number">0</span>], s=<span class="number">2</span>, c=<span class="string">'red'</span>)</div><div class="line"></div><div class="line">    <span class="comment"># ax.scatter(xMat[:, 1].flatten().A[0], yMat.T[:, 0].flatten().A[0])</span></div><div class="line">    <span class="comment"># xCopy = xMat.copy()</span></div><div class="line">    <span class="comment"># xCopy.sort(0)</span></div><div class="line">    <span class="comment"># yHat = xCopy * ws</span></div><div class="line">    <span class="comment"># ax.plot(xCopy[:, 1], yHat)</span></div><div class="line">    plt.show()</div><div class="line"></div><div class="line"><span class="string">'''</span></div><div class="line">    局部加权线性回归</div><div class="line">    每一个数据点,计算与其他所有点的距离,并计算出每个点对应的权重,随着带预测点和样本点的距离递增,权重会指数级衰减</div><div class="line">    利用这个权重矩阵计算出该点的w,然后与预测点相乘.得到预测值</div><div class="line">'''</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lwlr</span><span class="params">(testPoint, xArr, yArr, k=<span class="number">1.0</span>)</span>:</span></div><div class="line">    xMat = np.mat(xArr); yMat = np.mat(yArr).T</div><div class="line">    m = np.shape(xMat)[<span class="number">0</span>]</div><div class="line">    weights = np.mat(np.eye(m))</div><div class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</div><div class="line">        diffMat = testPoint - xMat[j, :]</div><div class="line">        weights[j, j] = np.exp(diffMat * diffMat.T / (<span class="number">-2.0</span> * k ** <span class="number">2</span>))</div><div class="line">    xTx = xMat.T * (weights * xMat)</div><div class="line">    <span class="keyword">if</span> la.det(xTx) == <span class="number">0</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'this matrix is singular, cannot do inverse'</span></div><div class="line">        <span class="keyword">return</span></div><div class="line">    ws = xTx.I * (xMat.T * (weights * yMat))</div><div class="line">    <span class="keyword">return</span> testPoint * ws</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lwlrTest</span><span class="params">(testArr, xArr, yArr, k=<span class="number">1.0</span>)</span>:</span></div><div class="line">    m = np.shape(testArr)[<span class="number">0</span>]</div><div class="line">    <span class="keyword">print</span> <span class="string">'xarr.shape:&#123;&#125;'</span>.format(np.shape(xArr))</div><div class="line">    yHat = np.zeros(m)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">        yHat[i] = lwlr(testArr[i], xArr, yArr, k)</div><div class="line">    <span class="keyword">return</span> yHat</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">rssError</span><span class="params">(yArr, yHatArr)</span>:</span></div><div class="line">    <span class="keyword">return</span> ((yArr - yHatArr) ** <span class="number">2</span>).sum()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    abX, abY = loadDataSet(<span class="string">'abalone.txt'</span>)</div><div class="line">    yHat01 = lwlrTest(abX[<span class="number">0</span>:<span class="number">99</span>], abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>], <span class="number">0.1</span>)</div><div class="line">    yHat1 = lwlrTest(abX[<span class="number">0</span>:<span class="number">99</span>], abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>], <span class="number">1</span>)</div><div class="line">    yHat10 = lwlrTest(abX[<span class="number">0</span>:<span class="number">99</span>], abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>], <span class="number">10</span>)</div><div class="line"></div><div class="line">    error01 = rssError(abY[<span class="number">0</span>:<span class="number">99</span>], yHat01.T)</div><div class="line">    error1 = rssError(abY[<span class="number">0</span>:<span class="number">99</span>], yHat1.T)</div><div class="line">    error10 = rssError(abY[<span class="number">0</span>:<span class="number">99</span>], yHat10.T)</div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="string">'error01:'</span>,error01</div><div class="line">    <span class="keyword">print</span> <span class="string">'error1:'</span>,error1</div><div class="line">    <span class="keyword">print</span> <span class="string">'error10:'</span>, error10</div><div class="line"></div><div class="line">    yHat01_new = lwlrTest(abX[<span class="number">100</span>:<span class="number">199</span>], abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>], <span class="number">0.1</span>)</div><div class="line">    yHat1_new = lwlrTest(abX[<span class="number">100</span>:<span class="number">199</span>], abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>], <span class="number">1</span>)</div><div class="line">    yHat10_new = lwlrTest(abX[<span class="number">100</span>:<span class="number">199</span>], abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>], <span class="number">10</span>)</div><div class="line">    <span class="comment"># print 'yHat01_new:', yHat01_new</span></div><div class="line">    <span class="comment"># print 'yHat1_new:', yHat1_new</span></div><div class="line">    <span class="comment"># print 'yHat10_new:', yHat10_new</span></div><div class="line"></div><div class="line"></div><div class="line">    error01_new = rssError(abY[<span class="number">100</span>:<span class="number">199</span>], yHat01_new.T)</div><div class="line">    error1_new = rssError(abY[<span class="number">100</span>:<span class="number">199</span>], yHat1_new.T)</div><div class="line">    error10_new = rssError(abY[<span class="number">100</span>:<span class="number">199</span>], yHat10_new.T)</div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="string">'error01_new:'</span>,error01_new</div><div class="line">    <span class="keyword">print</span> <span class="string">'error1_new:'</span>,error1_new</div><div class="line">    <span class="keyword">print</span> <span class="string">'error10_new:'</span>,error10_new</div><div class="line"></div><div class="line">    <span class="keyword">print</span> <span class="string">'lineRegression:'</span></div><div class="line"></div><div class="line">    ws = standRegres(abX[<span class="number">0</span>:<span class="number">99</span>], abY[<span class="number">0</span>:<span class="number">99</span>])</div><div class="line">    yHat = np.mat(abX[<span class="number">100</span>:<span class="number">199</span>]) * ws</div><div class="line">    <span class="keyword">print</span> rssError(abY[<span class="number">100</span>:<span class="number">199</span>], yHat.T.A)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ridgeRegres</span><span class="params">(xMat, yMat, lam=<span class="number">0.2</span>)</span>:</span></div><div class="line">    xTx = xMat.T * xMat</div><div class="line">    denom = xTx + np.eye(np.shape(xMat)[<span class="number">1</span>]) * lam</div><div class="line">    <span class="keyword">if</span> la.det(denom) == <span class="number">0.0</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'this matrix is singular, cannot do inverse'</span></div><div class="line">        <span class="keyword">return</span></div><div class="line">    ws = denom.I * (xMat.T * yMat)</div><div class="line">    <span class="keyword">return</span> ws</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ridgeTest</span><span class="params">(xArr, yArr)</span>:</span></div><div class="line">    xMat = np.mat(xArr); yMat = np.mat(yArr).T</div><div class="line">    yMean = np.mean(yMat, <span class="number">0</span>)</div><div class="line">    yMat = yMat - yMean</div><div class="line">    xMeans = np.mean(xMat, <span class="number">0</span>)</div><div class="line">    xVar = np.var(xMat, <span class="number">0</span>)</div><div class="line">    xMat = (xMat - xMeans) / xVar</div><div class="line">    numTestPts = <span class="number">30</span></div><div class="line">    wMat = np.zeros((numTestPts, np.shape(xMat)[<span class="number">1</span>]))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numTestPts):</div><div class="line">        ws = ridgeRegres(xMat, yMat, np.exp(i<span class="number">-10</span>))</div><div class="line">        wMat[i, :] = ws.T</div><div class="line">    <span class="keyword">return</span> wMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 将特征标准化处理为均值为0，方差为1</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">regularize</span><span class="params">(xMat)</span>:</span><span class="comment">#regularize by columns</span></div><div class="line">    inMat = xMat.copy()</div><div class="line">    inMeans = np.mean(inMat,<span class="number">0</span>)   <span class="comment">#calc mean then subtract it off</span></div><div class="line">    inVar = np.var(inMat,<span class="number">0</span>)      <span class="comment">#calc variance of Xi then divide by it</span></div><div class="line">    inMat = (inMat - inMeans)/inVar</div><div class="line">    <span class="keyword">return</span> inMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="string">'''</span></div><div class="line">    前向逐步回归 Forward Stepwise</div><div class="line">'''</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">stageWise</span><span class="params">(xArr, yArr, eps=<span class="number">0.01</span>, numIt=<span class="number">100</span>)</span>:</span></div><div class="line">    xMat = np.mat(xArr); yMat = np.mat(yArr).T</div><div class="line">    yMean = np.mean(yMat, <span class="number">0</span>)</div><div class="line">    yMat = yMat - yMean</div><div class="line">    xMat = regularize(xMat)</div><div class="line">    m,n = np.shape(xMat)</div><div class="line">    returnMat = np.zeros((numIt, n))</div><div class="line">    ws = np.zeros((n, <span class="number">1</span>)); wsTest = ws.copy(); wsMax = ws.copy()</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numIt):</div><div class="line">        <span class="keyword">print</span> ws.T</div><div class="line">        lowestError = np.inf</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">            <span class="keyword">for</span> sign <span class="keyword">in</span> [<span class="number">-1</span>, <span class="number">1</span>]:</div><div class="line">                wsTest = ws.copy()</div><div class="line">                wsTest[j] += eps * sign</div><div class="line">                yTest = xMat * wsTest</div><div class="line">                rssE = rssError(yMat.A, yTest.A)</div><div class="line">                <span class="keyword">if</span> rssE &lt; lowestError:</div><div class="line">                    lowestError = rssE</div><div class="line">                    wsMax = wsTest</div><div class="line">        ws = wsMax.copy()</div><div class="line">        returnMat[i, :] = ws.T</div><div class="line">    <span class="keyword">return</span> returnMat</div><div class="line"></div><div class="line"></div><div class="line"><span class="string">'''</span></div><div class="line">    从页面读取数据，生成retX和retY列表</div><div class="line">    数据属性:年份,零件数量,新旧,原价格</div><div class="line"></div><div class="line">'''</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">scrapePage</span><span class="params">(retX, retY, inFile, yr, numPce, origPrc)</span>:</span></div><div class="line"></div><div class="line">    <span class="comment"># 打开并读取HTML文件</span></div><div class="line">    fr = open(inFile);</div><div class="line">    soup = BeautifulSoup(fr.read())</div><div class="line">    i=<span class="number">1</span></div><div class="line"></div><div class="line">    <span class="comment"># 根据HTML页面结构进行解析</span></div><div class="line">    currentRow = soup.findAll(<span class="string">'table'</span>, r=<span class="string">"%d"</span> % i)</div><div class="line">    <span class="keyword">while</span>(len(currentRow)!=<span class="number">0</span>):</div><div class="line">        currentRow = soup.findAll(<span class="string">'table'</span>, r=<span class="string">"%d"</span> % i)</div><div class="line">        title = currentRow[<span class="number">0</span>].findAll(<span class="string">'a'</span>)[<span class="number">1</span>].text</div><div class="line">        lwrTitle = title.lower()</div><div class="line"></div><div class="line">        <span class="comment"># 查找是否有全新标签</span></div><div class="line">        <span class="keyword">if</span> (lwrTitle.find(<span class="string">'new'</span>) &gt; <span class="number">-1</span>) <span class="keyword">or</span> (lwrTitle.find(<span class="string">'nisb'</span>) &gt; <span class="number">-1</span>):</div><div class="line">            newFlag = <span class="number">1.0</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            newFlag = <span class="number">0.0</span></div><div class="line"></div><div class="line">        <span class="comment"># 查找是否已经标志出售，我们只收集已出售的数据</span></div><div class="line">        soldUnicde = currentRow[<span class="number">0</span>].findAll(<span class="string">'td'</span>)[<span class="number">3</span>].findAll(<span class="string">'span'</span>)</div><div class="line">        <span class="keyword">if</span> len(soldUnicde)==<span class="number">0</span>:</div><div class="line">            <span class="keyword">print</span> <span class="string">"item #%d did not sell"</span> % i</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># 解析页面获取当前价格</span></div><div class="line">            soldPrice = currentRow[<span class="number">0</span>].findAll(<span class="string">'td'</span>)[<span class="number">4</span>]</div><div class="line">            priceStr = soldPrice.text</div><div class="line">            priceStr = priceStr.replace(<span class="string">'$'</span>,<span class="string">''</span>) <span class="comment">#strips out $</span></div><div class="line">            priceStr = priceStr.replace(<span class="string">','</span>,<span class="string">''</span>) <span class="comment">#strips out ,</span></div><div class="line">            <span class="keyword">if</span> len(soldPrice)&gt;<span class="number">1</span>:</div><div class="line">                priceStr = priceStr.replace(<span class="string">'Free shipping'</span>, <span class="string">''</span>)</div><div class="line">            sellingPrice = float(priceStr)</div><div class="line"></div><div class="line">            <span class="comment"># 去掉不完整的套装价格</span></div><div class="line">            <span class="keyword">if</span>  sellingPrice &gt; origPrc * <span class="number">0.5</span>:</div><div class="line">                    <span class="keyword">print</span> <span class="string">"%d\t%d\t%d\t%f\t%f"</span> % (yr,numPce,newFlag,origPrc, sellingPrice)</div><div class="line">                    retX.append([yr, numPce, newFlag, origPrc])</div><div class="line">                    retY.append(sellingPrice)</div><div class="line">        i += <span class="number">1</span></div><div class="line">        currentRow = soup.findAll(<span class="string">'table'</span>, r=<span class="string">"%d"</span> % i)</div><div class="line"></div><div class="line"><span class="comment"># 依次读取六种乐高套装的数据，并生成数据矩阵        </span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setDataCollect</span><span class="params">(retX, retY)</span>:</span></div><div class="line">    scrapePage(retX, retY, baseDir+<span class="string">'setHtml\\lego8288.html'</span>, <span class="number">2006</span>, <span class="number">800</span>, <span class="number">49.99</span>)</div><div class="line">    scrapePage(retX, retY, baseDir+<span class="string">'setHtml\\lego10030.html'</span>, <span class="number">2002</span>, <span class="number">3096</span>, <span class="number">269.99</span>)</div><div class="line">    scrapePage(retX, retY, baseDir+<span class="string">'setHtml\\lego10179.html'</span>, <span class="number">2007</span>, <span class="number">5195</span>, <span class="number">499.99</span>)</div><div class="line">    scrapePage(retX, retY, baseDir+<span class="string">'setHtml\\lego10181.html'</span>, <span class="number">2007</span>, <span class="number">3428</span>, <span class="number">199.99</span>)</div><div class="line">    scrapePage(retX, retY, baseDir+<span class="string">'setHtml\\lego10189.html'</span>, <span class="number">2008</span>, <span class="number">5922</span>, <span class="number">299.99</span>)</div><div class="line">    scrapePage(retX, retY, baseDir+<span class="string">'setHtml\\lego10196.html'</span>, <span class="number">2009</span>, <span class="number">3263</span>, <span class="number">249.99</span>)</div><div class="line"></div><div class="line"><span class="comment"># 交叉验证</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">crossValidation</span><span class="params">(xArr, yArr, numVal=<span class="number">10</span>)</span>:</span></div><div class="line">    m = len(yArr)</div><div class="line">    indexList = range(m)</div><div class="line">    errorMat = np.zeros((numVal, <span class="number">30</span>))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numVal):</div><div class="line">        <span class="comment">#part-1 分割训练集和测试集</span></div><div class="line">        trainX = []; trainY = []</div><div class="line">        testX = []; testY = []</div><div class="line">        np.random.shuffle(indexList)</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">if</span> j &lt; m * <span class="number">0.9</span>:</div><div class="line">                trainX.append(xArr[indexList[j]])</div><div class="line">                trainY.append(yArr[indexList[j]])</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                testX.append(xArr[indexList[j]])</div><div class="line">                testY.append(yArr[indexList[j]])</div><div class="line">        <span class="comment">#part-2 调用Ridge Regression 计算weights 默认会根据不同的参数,计算30组</span></div><div class="line">        wMat = ridgeTest(trainX, trainY) <span class="comment"># wMat.shape:(30,4)</span></div><div class="line">        <span class="comment">#part-3 计算30组weights的测试集上的误差</span></div><div class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">30</span>):</div><div class="line">            <span class="comment"># 对测试集进行和训练集相同的标准化</span></div><div class="line">            matTestX = np.mat(testX); matTrainX = np.mat(trainX)</div><div class="line">            meanTrain = np.mean(matTrainX, <span class="number">0</span>)</div><div class="line">            varTrain = np.var(matTrainX, <span class="number">0</span>)</div><div class="line">            matTestX = (matTestX - meanTrain) / varTrain</div><div class="line">            yEst = matTestX * np.mat(wMat[k, :]).T + np.mean(trainY)</div><div class="line">            errorMat[i, k] = rssError(yEst.T.A, np.array(testY))</div><div class="line">    <span class="comment"># 求出30组weights的10次误差的均值的最小值</span></div><div class="line">    meanErrors = np.mean(errorMat, <span class="number">0</span>)</div><div class="line">    minMean = float(min(meanErrors))</div><div class="line">    <span class="comment"># 将使得误差均值最小的weights作为bestWeights</span></div><div class="line">    bestWeights = wMat[np.nonzero(meanErrors == minMean)]</div><div class="line"></div><div class="line">    <span class="comment"># 为了与标准回归比较,需要将数据标准化进行还原</span></div><div class="line">    xMat = np.mat(xArr); yMat = np.mat(yArr).T</div><div class="line">    meanX = np.mean(xMat, <span class="number">0</span>); varX = np.var(xMat, <span class="number">0</span>)</div><div class="line">    unReg = bestWeights / varX</div><div class="line">    <span class="keyword">print</span> <span class="string">'the best model from Ridge Regression is :\n'</span>,unReg</div><div class="line">    <span class="keyword">print</span> <span class="string">'with constant term:'</span></div><div class="line">    tmp = <span class="number">-1</span> * np.sum(np.multiply(meanX, unReg)) + np.mean(yMat)</div><div class="line">    <span class="keyword">print</span> tmp</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线性回归/" rel="tag"># 线性回归</a>
+          
+            <a href="/tags/岭回归/" rel="tag"># 岭回归</a>
+          
+            <a href="/tags/Lasso/" rel="tag"># Lasso</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/02/SVD简化数据/" rel="next" title="SVD简化数据">
+                <i class="fa fa-chevron-left"></i> SVD简化数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/13/后向传播-BP-算法推导与实现/" rel="prev" title="后向传播(BP)算法推导与实现">
+                后向传播(BP)算法推导与实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Williams-Hao" />
+          <p class="site-author-name" itemprop="name">Williams-Hao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#几种回归算法"><span class="nav-number">1.</span> <span class="nav-text">几种回归算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回归"><span class="nav-number">1.1.</span> <span class="nav-text">回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归"><span class="nav-number">1.2.</span> <span class="nav-text">线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想"><span class="nav-number">1.2.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推导"><span class="nav-number">1.2.2.</span> <span class="nav-text">推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">1.2.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部加权线性回归"><span class="nav-number">1.3.</span> <span class="nav-text">局部加权线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做法"><span class="nav-number">1.3.2.</span> <span class="nav-text">做法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现-1"><span class="nav-number">1.3.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#岭回归"><span class="nav-number">1.4.</span> <span class="nav-text">岭回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">1.4.2.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现-2"><span class="nav-number">1.4.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lasso"><span class="nav-number">1.5.</span> <span class="nav-text">lasso</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想-3"><span class="nav-number">1.5.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-1"><span class="nav-number">1.5.2.</span> <span class="nav-text">做法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现-3"><span class="nav-number">1.5.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.6.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Williams-Hao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

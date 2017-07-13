@@ -90,23 +90,23 @@
 
 
 
-<meta name="description" content="[TOC] SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AA.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T  A=E，则n阶实矩阵A称为正交矩阵2、A逆 = A.T 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数">
+<meta name="description" content="SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AAT=E（E为单位矩阵，AT表示“矩阵A的转置矩阵”）或AT  A=E，则n阶实矩阵A称为正交矩阵2、A-1 = AT 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数域上的推广。2、">
 <meta name="keywords" content="SVD,简化数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SVD简化数据">
 <meta property="og:url" content="https://williams-hao.github.io/2017/07/02/SVD简化数据/index.html">
 <meta property="og:site_name" content="所有的伟大,源于一个勇敢的开始">
-<meta property="og:description" content="[TOC] SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AA.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T  A=E，则n阶实矩阵A称为正交矩阵2、A逆 = A.T 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数">
+<meta property="og:description" content="SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AAT=E（E为单位矩阵，AT表示“矩阵A的转置矩阵”）或AT  A=E，则n阶实矩阵A称为正交矩阵2、A-1 = AT 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数域上的推广。2、">
 <meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226342650.png">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fh6g9ql2vyj20qm0fot9y.jpg">
 <meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226358289.png">
 <meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226356370.png">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105140822191-1774139119.png">
 <meta property="og:image" content="https://williams-hao.github.io/img/black.png">
-<meta property="og:updated_time" content="2017-07-03T02:37:32.251Z">
+<meta property="og:updated_time" content="2017-07-03T07:55:51.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVD简化数据">
-<meta name="twitter:description" content="[TOC] SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AA.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T  A=E，则n阶实矩阵A称为正交矩阵2、A逆 = A.T 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数">
+<meta name="twitter:description" content="SVD原理介绍数学概念  SVD: 奇异值分解(Singular Value Decomposition) 正交矩阵：1、如果AAT=E（E为单位矩阵，AT表示“矩阵A的转置矩阵”）或AT  A=E，则n阶实矩阵A称为正交矩阵2、A-1 = AT 酉矩阵：1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然酉矩阵是正交矩阵往复数域上的推广。2、">
 <meta name="twitter:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101192226342650.png">
 
 
@@ -346,11 +346,10 @@
       
 
       
-        <p>[TOC]</p>
-<h1 id="SVD原理介绍"><a href="#SVD原理介绍" class="headerlink" title="SVD原理介绍"></a>SVD原理介绍</h1><h2 id="数学概念"><a href="#数学概念" class="headerlink" title="数学概念"></a>数学概念</h2><blockquote>
+        <h1 id="SVD原理介绍"><a href="#SVD原理介绍" class="headerlink" title="SVD原理介绍"></a>SVD原理介绍</h1><h2 id="数学概念"><a href="#数学概念" class="headerlink" title="数学概念"></a>数学概念</h2><blockquote>
 <ul>
 <li><code>SVD</code>: 奇异值分解(Singular Value Decomposition)</li>
-<li><code>正交矩阵</code>：<br>1、如果A<em>A.T=E（E为单位矩阵，A.T表示“矩阵A的转置矩阵”）或A.T </em> A=E，则n阶实矩阵A称为正交矩阵<br>2、<strong>A逆 = A.T</strong></li>
+<li><code>正交矩阵</code>：<br>1、如果A<em>A<sup>T</sup>=E（E为单位矩阵，A<sup>T</sup>表示“矩阵A的转置矩阵”）或A<sup>T</sup> </em> A=E，则n阶实矩阵A称为正交矩阵<br>2、<strong>A<sup>-1</sup> = A<sup>T</sup></strong></li>
 <li><code>酉矩阵</code>：<br>1、n阶复方阵U的n个列向量是U空间的一个标准正交基，则U是酉矩阵(Unitary Matrix)。显然<strong>酉矩阵是正交矩阵往复数域上的推广</strong>。<br>2、  是酉矩阵的充分必要条件是，<strong>它的n个列向量是两两正交的单位向量</strong></li>
 </ul>
 </blockquote>
@@ -369,6 +368,38 @@
 <p>右边的三个矩阵相乘的结果将会是一个接近于A的矩阵，在这儿，r越接近于n，则相乘的结果越接近于A。而这三个矩阵的面积之和（在存储观点来说，矩阵面积越小，存储量就越小）要远远小于原始的矩阵A，我们如果想要压缩空间来表示原矩阵A，我们存下这里的三个矩阵：U、Σ、V就好了。</p>
 <p>更形象的图片：<br><img src="http://images2015.cnblogs.com/blog/1042406/201701/1042406-20170105140822191-1774139119.png" alt="enter image description here"></p>
 <h3 id="手动求解SVD"><a href="#手动求解SVD" class="headerlink" title="手动求解SVD"></a>手动求解SVD</h3><p><a href="http://www.cnblogs.com/pinard/p/6251584.html" target="_blank" rel="external">看这里</a></p>
+<h3 id="这里是重点"><a href="#这里是重点" class="headerlink" title="这里是重点"></a>这里是重点</h3><blockquote>
+<ul>
+<li><p>A<sub>m<em>n</em></sub> = U<sub>mm</sub> <em> Σ<sub>m</sub></em>n <em> V.T<sub>n</sub></em>n</p>
+</li>
+<li><p>取前r个奇异值</p>
+</li>
+<li>A<sub>m<em>n</em></sub> ≈ U<sub>mr</sub> <em> Σ<sub>r</sub></em>r <em> V.T<sub>r</sub></em>n</li>
+</ul>
+</blockquote>
+<p><em>假设A的行代表不同用户,列代表不同物品 A[i,j]代表第i个用户对第j个物品的评价</em></p>
+<p><strong>那么V矩阵代表r(r&lt;m)个用户对于n个物品的评价.即,把原来的m个用户的评价压缩为r个用户的评价.</strong><br><strong>那么U矩阵代表m个用户对于r(r&lt;n)个物品的评价.即,把原来的m个用户的对n个物品的评价压缩为对r个物品的评价.</strong></p>
+<blockquote>
+<p>A = U <em> Σ </em> V<sup>T</sup></p>
+<p>因为U,V是正交矩阵</p>
+<p>U<sup>T</sup> <em> A = U<sup>T</sup> </em> U <em> Σ </em> V<sup>T</sup></p>
+<p>U<sup>T</sup> <em> A = Σ </em> V<sup>T</sup></p>
+<p>Σ<sup>-1</sup> <em> U<sup>T</sup> </em> A = Σ<sup>-1</sup> <em> Σ </em> V<sup>T</sup></p>
+<p>Σ<sup>-1</sup> <em> U<sup>T</sup> </em> A = V<sup>T</sup></p>
+<p>V = (Σ<sup>-1</sup> <em> U<sup>T</sup> </em> A)<sup>T</sup></p>
+<p>V = A<sup>T</sup> <em> (U<sup>T</sup>)<sup>T</sup> </em> (Σ<sup>-1</sup>)<sup>T</sup></p>
+<p>因为Σ是对角阵</p>
+<p>V = A<sup>T</sup> <em> (U<sup>T</sup>)<sup>T</sup> </em> Σ<sup>-1</sup></p>
+<p>V = A<sup>T</sup> <em> U </em> Σ<sup>-1</sup></p>
+</blockquote>
+<p><code>V即是降维后的矩阵</code></p>
+<h4 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h4><p>同理,新来一个所有用户对于一个商品评价的向量</p>
+<blockquote>
+<p>X<sub>m*1</sub></p>
+<p>降维后的向量</p>
+<p>v<sub>1,r</sub>=X<sup>T</sup> <em> U<sub>m,r</sub> </em>  Σ<sub>r,r</sub><sup>-1</sup></p>
+</blockquote>
+<p>v<sup>T</sup> 即是降维后的该商品的评价</p>
 <h1 id="SVD协同过滤推荐引擎"><a href="#SVD协同过滤推荐引擎" class="headerlink" title="SVD协同过滤推荐引擎"></a>SVD协同过滤推荐引擎</h1><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p><code>协同过滤：</code>通过将用户和其他用户的数据进行对比来实现推荐</p>
 <h2 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h2><p><strong>基于物品的相似性的推荐</strong></p>
 <p><code>思想</code>：</p>
@@ -450,6 +481,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/07/11/几种回归算法/" rel="prev" title="几种回归算法">
+                几种回归算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -520,7 +555,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -531,7 +566,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -542,7 +577,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -577,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD原理介绍"><span class="nav-number">1.</span> <span class="nav-text">SVD原理介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数学概念"><span class="nav-number">1.1.</span> <span class="nav-text">数学概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmn-Umm-Σmn-VTnn"><span class="nav-number">1.2.1.</span> <span class="nav-text">Xmn = Umm  Σmn  VTnn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动求解SVD"><span class="nav-number">1.2.2.</span> <span class="nav-text">手动求解SVD</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD协同过滤推荐引擎"><span class="nav-number">2.</span> <span class="nav-text">SVD协同过滤推荐引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思想"><span class="nav-number">2.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做法"><span class="nav-number">2.2.</span> <span class="nav-text">做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD压缩图片"><span class="nav-number">3.</span> <span class="nav-text">SVD压缩图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现-1"><span class="nav-number">3.1.</span> <span class="nav-text">实现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD原理介绍"><span class="nav-number">1.</span> <span class="nav-text">SVD原理介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数学概念"><span class="nav-number">1.1.</span> <span class="nav-text">数学概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xmn-Umm-Σmn-VTnn"><span class="nav-number">1.2.1.</span> <span class="nav-text">Xmn = Umm  Σmn  VTnn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动求解SVD"><span class="nav-number">1.2.2.</span> <span class="nav-text">手动求解SVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这里是重点"><span class="nav-number">1.2.3.</span> <span class="nav-text">这里是重点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#降维"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">降维</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD协同过滤推荐引擎"><span class="nav-number">2.</span> <span class="nav-text">SVD协同过滤推荐引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思想"><span class="nav-number">2.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做法"><span class="nav-number">2.2.</span> <span class="nav-text">做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD压缩图片"><span class="nav-number">3.</span> <span class="nav-text">SVD压缩图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现-1"><span class="nav-number">3.1.</span> <span class="nav-text">实现</span></a></li></ol></li></ol></div>
             
 
           </div>
