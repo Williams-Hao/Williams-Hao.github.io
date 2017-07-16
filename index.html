@@ -515,7 +515,7 @@
 </blockquote>
 <h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p><strong>给预测点附近的每一个点都赋予权重。随着样本点与待预测点距离递增，权重将以指数级衰减</strong></p>
 <p>这里的$\theta$ 即是上面的W</p>
-<p>损失函数J：<br><img src="https://pic3.zhimg.com/1d803ede1555b8d6789ba15cf432ff82_b.png" alt="enter image description here"><br>矩阵形式表示：<br>J=(Y-X$\theta$)<sup>T</sup>W(Y-X$\theta$)</p>
+<p>损失函数J：<br><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhluk3edkrj203j018q2p.jpg" alt=""><br>矩阵形式表示：<br>J=(Y-X$$\theta$$)<sup>T</sup>W(Y-X$$\theta$$)</p>
 <blockquote>
 <ul>
 <li><p>W是一个对角矩阵W[i][i] 代表第i个数据的权重</p>
@@ -545,9 +545,9 @@
 </blockquote>
 <p>为了消除共线性，引入岭回归。增加原矩阵稳定性。使得X<sup>T</sup>X可逆</p>
 <p>岭回归(Ridge Regression)是在平方误差的基础上增加正则项（正则化的l2范数）</p>
-<p><img src="https://pic2.zhimg.com/v2-bdc47b9217c9615668937406a78519f9_b.png" alt="enter image description here"></p>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhluhsie7ej20fu083ab4.jpg" alt=""></p>
 <p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhforaaaomj23402c0kjl.jpg" alt=""></p>
-<p>岭参数选择：<br><img src="https://pic1.zhimg.com/v2-ad246eef7d34d788c1019bbd204897d4_b.png" alt="enter image description here"></p>
+<p>岭参数选择：<br><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhlugf19f2j20fq07kt9p.jpg" alt=""></p>
 <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><blockquote>
 <ul>
 <li>用于在估计中加入偏差，得到更好的估计</li>
@@ -1323,7 +1323,7 @@ D=P * C * P.T
 <p>*w = (w1,w2, … ,w3)为法向量,决定超平面方向.<br>b为位移项,决定超平面与远点距离</p>
 </blockquote>
 <p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fgll1q3l6lj22c0340u0x.jpg" alt=""></p>
-<p>上述问题等价于<br><strong>min{ 1/2 <em> ||w||二次方}  s.t. yi(w.T </em> xi + b)&gt;=1 i=1,2,3…m</strong></p>
+<p>上述问题等价于<br><strong>min{ 1/2 <em> ||w||<sup>2</sup>}  s.t. yi(w.T </em> xi + b)&gt;=1 i=1,2,3…m</strong></p>
 <h2 id="范数"><a href="#范数" class="headerlink" title="范数"></a>范数</h2><p>(范数这段摘自:<a href="http://blog.csdn.net/zouxy09/article/details/24971995/" target="_blank" rel="external">http://blog.csdn.net/zouxy09/article/details/24971995/</a>)</p>
 <h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><blockquote>
 <ul>
@@ -1344,25 +1344,34 @@ D=P * C * P.T
 </ul>
 </blockquote>
 <p>L2范数因为它的强大功效是改善机器学习里面一个非常重要的问题：<strong>过拟合</strong></p>
-<pre><code>过拟合是什么，上面也解释了，就是模型训练时候的误差很小，但在测试的时候误差很大，也就是我们的模型复杂到可以拟合到我们的所有训练样本了，但在实际预测新的样本的时候，糟糕的一塌糊涂。通俗的讲就是应试能力很强，实际应用能力很差。擅长背诵知识，却不懂得灵活利用知识。
-</code></pre><p><strong>为什么L2范数可以防止过拟合？</strong>。<br>L2范数是指向量各元素的平方和然后求平方根。我们让L2范数的规则项||W||2最小，可以使得W的每个元素都很小，都接近于0，但与L1范数不同，它不会让它等于0，而是接近于0，这里是有很大的区别的哦。而越小的参数说明模型越简单，越简单的模型则越不容易产生过拟合现象。为什么越小的参数说明模型越简单？我也不懂，我的理解是：限制了参数很小，实际上就限制了多项式某些分量的影响很小（看上面线性回归的模型的那个拟合的图），这样就相当于减少参数个数。其实我也不太懂，希望大家可以指点下。</p>
-<pre><code>这里也一句话总结下：通过L2范数，我们可以实现了对模型空间的限制，从而在一定程度上避免了过拟合。
-</code></pre><p><strong>上面问题的等价转换用到了L2范数</strong></p>
+<blockquote>
+<ul>
+<li>过拟合是什么，上面也解释了，就是模型训练时候的误差很小，但在测试的时候误差很大，也就是我们的模型复杂到可以拟合到我们的所有训练样本了，但在实际预测新的样本的时候，糟糕的一塌糊涂。通俗的讲就是应试能力很强，实际应用能力很差。擅长背诵知识，却不懂得灵活利用知识。</li>
+</ul>
+</blockquote>
+<p><strong>为什么L2范数可以防止过拟合？</strong>。<br>L2范数是指向量各元素的平方和然后求平方根。我们让L2范数的规则项||W||2最小，可以使得W的每个元素都很小，都接近于0，但与L1范数不同，它不会让它等于0，而是接近于0，这里是有很大的区别的哦。而越小的参数说明模型越简单，越简单的模型则越不容易产生过拟合现象。为什么越小的参数说明模型越简单？我也不懂，我的理解是：限制了参数很小，实际上就限制了多项式某些分量的影响很小（看上面线性回归的模型的那个拟合的图），这样就相当于减少参数个数。其实我也不太懂，希望大家可以指点下。</p>
+<blockquote>
+<ul>
+<li>这里也一句话总结下：通过L2范数，我们可以实现了对模型空间的限制，从而在一定程度上避免了过拟合。</li>
+</ul>
+</blockquote>
+<p><strong>上面问题的等价转换用到了L2范数</strong></p>
 <h2 id="拉格朗日乘子法转化问题"><a href="#拉格朗日乘子法转化问题" class="headerlink" title="拉格朗日乘子法转化问题"></a>拉格朗日乘子法转化问题</h2><blockquote>
 <ul>
-<li>原问题：<strong>min 1/2 <em> ||w||二次方 s.t. yi(w.T </em> xi + b)&gt;=1 i=1,2,3…m</strong></li>
+<li>原问题：<strong>min 1/2 <em> ||w||<sup>2</sup>  s.t. yi(w.T </em> xi + b)&gt;=1 i=1,2,3…m</strong></li>
 </ul>
 </blockquote>
 <p>构造拉格朗日函数:<br><img src="http://images2015.cnblogs.com/blog/731104/201606/731104-20160601161233696-300846876.png" alt=""></p>
 <blockquote>
 <ul>
-<li>L(w,b,alpha) = <strong>1/2 <em> ||w||二次方 + sigma{alpha[i] </em> (1-yi(w.T * x+b))}  s.t. alpha[i]&gt;=0</strong></li>
+<li>L(w,b,alpha) = <strong>1/2 <em> ||w||<sup>2</sup> + sigma{alpha[i] </em> (1-yi(w.T * x+b))}  s.t. alpha[i]&gt;=0</strong></li>
 </ul>
 </blockquote>
-<p>由前面的约束得到:<strong>(1-yi(w.T * x+b)&lt;=0</strong><br>当alpha[i] &gt;= 0 (1-yi(w.T <em> x+b)&lt;=0 都满足时:<br>**max L = 1/2 </em> ||w||二次方<strong><br>令theta(w) = max L(w,b,alpha) = 1/2 * ||w||二次方
-</strong>min 1/2 <em> ||w||二次方 = min  max L(w,b,alpha) = p<strong>
-</strong>max min L(w,b,alpha) = d<strong><br>则:d&lt;=p
-</strong>这里交换了min、max的顺序.即最大值中的最小的也比最小值中的最大的大*</em><br>当满足KKT条件时 d=p<br>KKT条件详解:<a href="http://blog.csdn.net/on2way/article/details/47729419" target="_blank" rel="external">http://blog.csdn.net/on2way/article/details/47729419</a></p>
+<p>由前面的约束得到:<strong>(1-yi(w.T * x+b)&lt;=0</strong><br>当alpha[i] &gt;= 0 (1-yi(w.T <em> x+b)&lt;=0 都满足时:<br>**max L = 1/2 </em> ||w||<sup>2</sup><em>*<br>令theta(w) = max L(w,b,alpha) = 1/2 </em> ||w||<sup>2</sup></p>
+<p><strong>min 1/2 * ||w||<sup>2</sup> = min  max L(w,b,alpha) = p</strong></p>
+<p><strong>max min L(w,b,alpha) = d</strong></p>
+<p>则:d&lt;=p</p>
+<p><strong>这里交换了min、max的顺序.即最大值中的最小的也比最小值中的最大的大</strong><br>当满足KKT条件时 d=p<br>KKT条件详解:<a href="http://blog.csdn.net/on2way/article/details/47729419" target="_blank" rel="external">http://blog.csdn.net/on2way/article/details/47729419</a></p>
 <p>L对w,b分别求偏导然后置0,得到:</p>
 <blockquote>
 <ul>

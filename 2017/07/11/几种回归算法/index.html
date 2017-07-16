@@ -102,16 +102,16 @@
 <meta property="og:image" content="http://images.cnitblog.com/blog2015/633472/201503/262041198028564.jpg">
 <meta property="og:image" content="http://images.cnitblog.com/blog2015/633472/201503/262042295678545.jpg">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/84976/201610/84976-20161016091207452-1108130635.png">
-<meta property="og:image" content="https://pic3.zhimg.com/1d803ede1555b8d6789ba15cf432ff82_b.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhluk3edkrj203j018q2p.jpg">
 <meta property="og:image" content="http://img.blog.csdn.net/20151017110514600">
 <meta property="og:image" content="http://img.blog.csdn.net/20151017110736544">
 <meta property="og:image" content="http://img.blog.csdn.net/20151017110917633">
-<meta property="og:image" content="https://pic2.zhimg.com/v2-bdc47b9217c9615668937406a78519f9_b.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhluhsie7ej20fu083ab4.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhforaaaomj23402c0kjl.jpg">
-<meta property="og:image" content="https://pic1.zhimg.com/v2-ad246eef7d34d788c1019bbd204897d4_b.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhlugf19f2j20fq07kt9p.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/75544e9fly1fhfp3y0lopj20dm04v3yj.jpg">
 <meta property="og:image" content="http://img.blog.csdn.net/20151121203008782?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
-<meta property="og:updated_time" content="2017-07-11T01:59:52.471Z">
+<meta property="og:updated_time" content="2017-07-16T09:21:43.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="几种回归算法">
 <meta name="twitter:description" content="几种回归算法回归目的：预测数值型的目标值 做法：用曲线去拟合数据的趋势,达到预测未知数据的目的  损失函数：平方损失函数  线性回归思想求一组参数，使得和数据拟合较好，使得损失函数最小化。 画出一条直线 推导此文公式推导有点问题： 该文写得好，不忍赘述 下面图片摘自  假设有训练数据    那么为了方便我们写成矩阵的形式  损失函数：   J(w) = Σ(yi - hw(xi) )2=(Y-XW">
@@ -395,7 +395,7 @@
 </blockquote>
 <h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p><strong>给预测点附近的每一个点都赋予权重。随着样本点与待预测点距离递增，权重将以指数级衰减</strong></p>
 <p>这里的$\theta$ 即是上面的W</p>
-<p>损失函数J：<br><img src="https://pic3.zhimg.com/1d803ede1555b8d6789ba15cf432ff82_b.png" alt="enter image description here"><br>矩阵形式表示：<br>J=(Y-X$\theta$)<sup>T</sup>W(Y-X$\theta$)</p>
+<p>损失函数J：<br><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhluk3edkrj203j018q2p.jpg" alt=""><br>矩阵形式表示：<br>J=(Y-X$$\theta$$)<sup>T</sup>W(Y-X$$\theta$$)</p>
 <blockquote>
 <ul>
 <li><p>W是一个对角矩阵W[i][i] 代表第i个数据的权重</p>
@@ -425,9 +425,9 @@
 </blockquote>
 <p>为了消除共线性，引入岭回归。增加原矩阵稳定性。使得X<sup>T</sup>X可逆</p>
 <p>岭回归(Ridge Regression)是在平方误差的基础上增加正则项（正则化的l2范数）</p>
-<p><img src="https://pic2.zhimg.com/v2-bdc47b9217c9615668937406a78519f9_b.png" alt="enter image description here"></p>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhluhsie7ej20fu083ab4.jpg" alt=""></p>
 <p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhforaaaomj23402c0kjl.jpg" alt=""></p>
-<p>岭参数选择：<br><img src="https://pic1.zhimg.com/v2-ad246eef7d34d788c1019bbd204897d4_b.png" alt="enter image description here"></p>
+<p>岭参数选择：<br><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhlugf19f2j20fq07kt9p.jpg" alt=""></p>
 <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><blockquote>
 <ul>
 <li>用于在估计中加入偏差，得到更好的估计</li>
