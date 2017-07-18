@@ -1591,6 +1591,28 @@ f(x) = sigmoid(z)
 <p>最终的J:<br><img src="http://img.blog.csdn.net/20140716153733362" alt=""></p>
 <p>梯度下降法更新参数值：<br><img src="http://img.my.csdn.net/uploads/201407/16/1405496972_1821.png" alt=""><br><img src="http://img.my.csdn.net/uploads/201407/16/1405496975_3372.png" alt=""></p>
 <p><strong>梯度上升法则是一个负号的关系</strong></p>
+<h2 id="逻辑回归的推导"><a href="#逻辑回归的推导" class="headerlink" title="逻辑回归的推导"></a>逻辑回归的推导</h2><p><strong>上面没说清楚，只知其然不知其所以然。又看了一遍。记录在此 2017-07-18</strong></p>
+<h3 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h3><p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhnvv0i6jnj20pn09x408.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhnvtlaym3j20md0begmh.jpg" alt=""></p>
+<blockquote>
+<ul>
+<li><p>上面这个式子的意义是：<strong>发生当前的样本时的总体的概率。如果这里面的参数能使这个总体的概率最大。那么这个参数是最接近这样样本值的</strong></p>
+</li>
+<li><p>上式为什么y值和(1-y)值在次方项上？为什么不是乘的关系？</p>
+</li>
+<li>因为：y=1时(1-y)=0, y=0时(1-y)=1。如果是相乘 的关系，那么结果肯定是0。所以，放在次方项上。任何数的0次方得1嘛。</li>
+<li>每两项只会只会取其一。因为另一个是0次方。</li>
+</ul>
+</blockquote>
+<p><strong>现在的目标就是使上式最大化</strong></p>
+<p><em>因为上式连乘很容易下溢出，所以对它去对数</em>  </p>
+<p><img src="http://ww1.sinaimg.cn/large/75544e9fly1fhnw8mtwp0j20lk03f0sq.jpg" alt=""></p>
+<p><strong>把对数似然函数求最大值加个-1/m，即变为损失函数，取其最小值。如此损失函数就推导出来了</strong></p>
+<blockquote>
+<ul>
+<li>J = - 1/M L(w)</li>
+</ul>
+</blockquote>
 <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
 <li>构建数据集矩阵和标签列表</li>
 <li>训练分类器</li>
